@@ -1,8 +1,11 @@
 import requests
+import csv
+from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from http import HTTPStatus
 from core.global_manager import GlobalManager
+from rest_framework import status
 
 
 class WildFireFilterListAPIView(APIView):
@@ -28,7 +31,7 @@ class WildFireFilterListAPIView(APIView):
                 'geographic_description': GEOGRAPHIC_DESCRIPTION,
                 'fire_cause': FIRE_CAUSE,
                 'fire_status': FIRE_STATUS,
-            }, status=200)
+            }, status=HTTPStatus.OK)
         else:
             return Response({"error": "API request failed"}, status=500)
         
@@ -55,6 +58,9 @@ class WildFireAPIView(APIView):
                 query_string = "fire_status"
             elif request.query_params.get("geographic_description"):
                 query_string = "geographic_description" 
+            
+            if len(request.query_params) == 0:
+                return Response({'features':features})
 
             if query_string is not None:
                 for new_feature_2023 in new_features_2023:
@@ -62,9 +68,40 @@ class WildFireAPIView(APIView):
                     if query_value == request.query_params.get(query_string):
                         filtered_features_2023.append(new_feature_2023)
 
-                return Response(filtered_features_2023)
+                return Response(filtered_features_2023, status=HTTPStatus.OK)
         
         return Response({"error": "API request failed"}, status=500) 
+    
+
+class JSONToCSVConverter(APIView):
+    def post(self, request, format=None):
+        try:
+            json_data = request.data.get('json_data', [])
+            if not json_data:
+                return Response("No JSON data provided.", status=status.HTTP_400_BAD_REQUEST)
+            
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="data.csv"'
+            
+            csv_writer = csv.writer(response)
+            keys = json_data[0].keys()
+            csv_writer.writerow(keys)
+            
+            for item in json_data:
+                csv_writer.writerow(item.values())
+            
+            return response
+        
+        except Exception as e:
+            return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+
+
+
 
 
 
