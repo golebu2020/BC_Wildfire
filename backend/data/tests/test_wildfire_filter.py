@@ -5,7 +5,7 @@ from unittest.mock import patch
 from core.global_manager import GlobalManager
 
 class WildFireFilterListAPIViewTest(APITestCase):
-    """Test WildFireFilterListAPIView."""
+    """Testing API with some test cases"""
 
     def test_wildfire_filter_list(self):
         response = self.client.get(GlobalManager().filter_list_api)
