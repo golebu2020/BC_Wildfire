@@ -6,7 +6,7 @@ import "./assets/global.css"
 Vue.config.productionTip = false
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'A1122',
+    key: "AIzaSyB9xU0nE2HrqMyIHpgC09AgCq4qt8bANP4",
   },
 
 })

@@ -2,12 +2,10 @@
   <div class="parent-container">
     <div class="map-container">
       <GmapMap :center="{ lat: 48.4701, lng: -123.4667 }" :zoom="5" style="width: 70vw; height: 100%">
-        <!-- Use v-for to iterate through an array of locations and create markers -->
         <GmapMarker v-for="(location, index) in locations" :key="index" :position="location" />
       </GmapMap>
     </div>
     <div class="filter-container">
-      <v-card elevation="2"></v-card>
       
     </div>
   </div>
