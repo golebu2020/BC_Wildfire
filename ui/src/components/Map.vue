@@ -6,7 +6,10 @@
         <GmapMarker v-for="(location, index) in locations" :key="index" :position="location" />
       </GmapMap>
     </div>
-    <div class="filter-container"></div>
+    <div class="filter-container">
+      <v-card elevation="2"></v-card>
+      
+    </div>
   </div>
 </template>
 
