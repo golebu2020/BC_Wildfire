@@ -2,9 +2,8 @@ import requests
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from http import HTTPStatus
+from core.global_manager import GlobalManager
 
-
-url = r"https://openmaps.gov.bc.ca/geo/pub/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_PNTS_SP&outputFormat=application%2Fjson"
 
 class WildFireFilterListAPIView(APIView):
     """Generates list of filters that will be displayed on the frontend."""  
@@ -12,7 +11,7 @@ class WildFireFilterListAPIView(APIView):
         GEOGRAPHIC_DESCRIPTION = []
         FIRE_CAUSE = []
         FIRE_STATUS = []
-        response = requests.get(url)
+        response = requests.get(GlobalManager().open_map_api)
 
         if response.status_code == 200:
             data = response.json()
@@ -37,8 +36,8 @@ class WildFireFilterListAPIView(APIView):
 class WildFireAPIView(APIView):
     """Generates list of filtered BC Wildfire data"""  
     def get(self, request):
-        response = requests.get(url)
-        
+        response = requests.get(GlobalManager().open_map_api)
+
         if response.status_code == 200:
             data = response.json()
             features = data.get('features')
