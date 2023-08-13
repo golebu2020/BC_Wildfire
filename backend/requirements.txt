@@ -4,3 +4,4 @@ flake8>=3.9.2,<=3.10
 psycopg2>=2.8.6,<2.9
 drf-spectacular>=0.21.1,<0.23
 django-cors-headers
+requests
