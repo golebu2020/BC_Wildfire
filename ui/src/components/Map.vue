@@ -2,10 +2,19 @@
   <div class="parent-container">
     
       <div class="map-container">
+        <!-- <div>Heys</div> -->
         <GmapMap :center="{ lat: 53.2833330, lng: -123.1333330 }"  :zoom="8" style="width: 80vw; height: 100%;" >
-          <GmapMarker v-for="(location, index) in retrievedLocations" :key="index" :position="location" />
-          <div v-if="retrievedLocations.length=0">Loading...</div>
+          <GmapMarker @click="handleMarkerClick(index)" v-for="(location, index) in retrievedLocations" :key="index" :position="location" />
         </GmapMap>
+        <div v-if="filterName != ''">
+          <div class="floating-div border-design">
+            <div class="filter__title">{{filterQuery}}:</div>
+            <hr>
+            {{filterName}}
+          </div>
+        </div>
+        <DisplayFireInfo :capture="capturedInfo"/>
+        
       </div>
     
   
@@ -17,23 +26,30 @@
 <script>
 
 import Sidebar from './Sidebar.vue';
+import DisplayFireInfo from './DisplayFireInfo.vue';
 import axios from 'axios';
+
 
 export default {
   components: {
     Sidebar,
+    DisplayFireInfo,
   },
   data() {
     return {
       retrievedLocations:[],
+      filterName:"",
+      filterQuery:"",
+      feature_list:null,
+      capturedInfo:{},
     };
   },
   methods:{
     fetchAllData(){
       axios.get('http://127.0.0.1:8000/api/wildfire/search/')
         .then(response => {
-          const feature_list = response.data.features
-          feature_list.forEach(element => {
+          this.feature_list = response.data.features
+          this.feature_list.forEach(element => {
             this.retrievedLocations.push({
               lat: element.properties.LATITUDE,
               lng: element.properties.LONGITUDE
@@ -45,8 +61,11 @@ export default {
           console.error('Error fetching data:', error.message);
         });
     },  
-    triggerFilterSelected(link){
+    triggerFilterSelected(link,fName,fQuery){
       this.retrievedLocations = []
+      this.filterName = fName
+      this.filterQuery = fQuery.replace(/_/g, " ").toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
       axios.get(link)
         .then(response => {
           const feature_list = response.data
@@ -61,6 +80,13 @@ export default {
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
+    },
+    handleMarkerClick(index){
+      console.log('Marker has been clicked'+index)
+      this.capturedInfo = this.feature_list[index].properties
+      console.log(this.capturedInfo)
+      console.log("=====================")
+      
     }
    
   },
@@ -83,5 +109,18 @@ export default {
   background: #fff;
 }
 
+.parent-container {
+  position: relative;
+}
+
+.filter__title{
+  color: #000000;
+  font-weight: bold;
+}
+
+hr{
+  opacity: 0.2;
+  margin-bottom: 5px;
+}
 
 </style>

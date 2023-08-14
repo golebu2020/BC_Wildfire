@@ -5,7 +5,7 @@
         </div>
         <div class="fire-status border-design">
             
-            <p>Fire Status</p>
+            <p class="align-text-center">Fire Status</p>
             <hr>
             <div v-if="fireStatus.length>0" >
                 <ul v-for="(item, index) in fireStatus" :key="index">
@@ -16,7 +16,7 @@
         </div >
         
         <div class="fire-cause border-design">
-            <p>Fire Cause</p>
+            <p class="align-text-center">Fire Cause</p>
             <hr>
             <div v-if="fireCause.length>0" >
                 <ul v-for="item in fireCause" :key="item">
@@ -28,7 +28,7 @@
         
         <div class="geo-desc border-design">
             <div>
-                <p>Geographic Description</p>
+                <p class="align-text-center">Geographic Description</p>
                 <hr>
             </div>
             <div class="geo-desc-inner" >
@@ -51,11 +51,11 @@ export default {
     name: "Sidebar",
     data() {
         return {
-            locations: [
-                { lat: 48.4701, lng: -123.4667 },
-                { lat: 48.4067, lng: -123.5143 },
-                { lat: 49.2686, lng: -125.17 },
-            ],
+            // locations: [
+            //     { lat: 48.4701, lng: -123.4667 },
+            //     { lat: 48.4067, lng: -123.5143 },
+            //     { lat: 49.2686, lng: -125.17 },
+            // ],
             fireCause:[],
             fireStatus:[],
             geoDesc:[],
@@ -80,7 +80,7 @@ export default {
 
         handleFilterClicked(query,value){
             this.permLink = `http://127.0.0.1:8000/api/wildfire/search/?${query}=${value}`
-            this.$emit('filterData', this.permLink);
+            this.$emit('filterData', this.permLink, value, query);
         },
 
   },
@@ -126,9 +126,18 @@ p{
  
 a{
     font-size: 14px;
+    text-decoration: none;
+    color: rgb(103, 103, 103);
+    transition: all 0.3s;
+}
+
+a:hover{
+    color:rgb(69, 69, 69);
+    font-weight: bold;
 }
 li{
     margin-bottom: 10px; 
+   
 }
 
 .border-design{
@@ -138,7 +147,6 @@ li{
     padding: 10px;
     margin-bottom: 5px;
     margin-left: 5px;
-
 }
 
 hr{
@@ -149,7 +157,11 @@ hr{
 .loading-class{
     text-align: center;
     margin-top: 20px;
-    color:rgb(45, 54, 52);
+    font-size: 14px;
+    color:rgb(145, 145, 145);
+}
+.align-text-center{
+    text-align: center;
 }
 
  
