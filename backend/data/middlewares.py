@@ -8,4 +8,3 @@ class APICallCounterMiddleWare:
         response = self.get_response(request)
         print("The API has been called:",self.call_count,"times")
         return response
-        

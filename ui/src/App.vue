@@ -5,21 +5,19 @@
 </template>
 
 <script>
-import Map from './components/Map.vue'
+import Map from "./components/Map.vue";
 
 export default {
-  name: 'App',
-  mounted(){
-    console.log("Thanks")
-    console.log(process.env.VUE_APP_API_KEY)
+  name: "App",
+  mounted() {
+    console.log("Thanks");
+    console.log(process.env.VUE_APP_API_KEY);
   },
   components: {
-    Map
+    Map,
   },
-  methods:{
-  
-  }
-}
+  methods: {},
+};
 </script>
 <style>
 .floating-div {
@@ -31,11 +29,11 @@ export default {
   top: 0;
   left: 0;
   transform: translateX(700px);
-  z-index: 1; 
+  z-index: 1;
 }
 
 .floating-div-display-info {
-  height:fit-content;
+  height: fit-content;
   width: fit-content;
   position: absolute;
   background: #fff;
@@ -43,10 +41,10 @@ export default {
   top: 200px;
   left: -255px;
   transform: translateX(300px);
-  z-index: 1; 
+  z-index: 1;
 }
 
-.border-design{
+.border-design {
   margin: 2px;
   box-shadow: 1px 1px 3px 0.4px rgba(38, 38, 38, 0.459);
   border-radius: 2px;
@@ -54,9 +52,8 @@ export default {
   margin-bottom: 5px;
   margin-left: 5px;
 }
-hr{
+hr {
   opacity: 0.2;
   margin-bottom: 5px;
 }
-
 </style>

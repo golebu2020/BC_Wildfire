@@ -23,4 +23,3 @@ class WildFireFilterListAPIViewTest(APITestCase):
         response = self.client.get(GlobalManager().search_api + "?geographic_description=Hughes Lake")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    
