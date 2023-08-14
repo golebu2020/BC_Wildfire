@@ -67,11 +67,7 @@ export default {
               
         })
         .catch(error => {
-          console.log("Errrrrr")
           console.log(error.message)
-
-          this.errorMesssage = error
-          console.log("========")
         });
     },  
     triggerFilterSelected(link,fName,fQuery){
