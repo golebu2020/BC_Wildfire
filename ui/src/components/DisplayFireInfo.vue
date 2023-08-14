@@ -46,7 +46,6 @@ export default {
     align-items: center;
     justify-content: space-between;
     gap: 15px;
-    
 }
 .material-symbols-outlined{
     cursor: pointer;
@@ -59,13 +58,11 @@ export default {
     font-size: 12px;
 }
 .fire--bc--title{
-    font-size: 15px;
+    font-size: 12px;
     text-align: center;
 }
-
 .fire--bc--list{
     font-size: 12px;
 }
-
 
 </style>
