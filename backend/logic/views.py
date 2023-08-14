@@ -32,8 +32,7 @@ class WildFireFilterListAPIView(APIView):
             FIRE_CAUSE = list(set(FIRE_CAUSE))
             FIRE_STATUS = list(set(FIRE_STATUS))
 
-            # Number of calls made to the API
-            print("Call Count = ", call_count)
+        
             return Response({
                 'geographic_description': GEOGRAPHIC_DESCRIPTION,
                 'fire_cause': FIRE_CAUSE,
@@ -71,9 +70,8 @@ class WildFireAPIView(APIView):
                 query_string = "geographic_description" 
             
             if len(request.query_params) == 0:
-                # Number of calls made to the API
-                
-                print("Call Count = ", call_count)
+               
+
                 return Response({'features':features})
 
             if query_string is not None:
@@ -81,8 +79,7 @@ class WildFireAPIView(APIView):
                     query_value = new_feature_2023.get('properties').get(query_string.upper())
                     if query_value == request.query_params.get(query_string):
                         filtered_features_2023.append(new_feature_2023)
-
-                 # Number of calls made to the API
+                        
                 print("Call Count = ", call_count)
                 return Response(filtered_features_2023, status=HTTPStatus.OK)
         
