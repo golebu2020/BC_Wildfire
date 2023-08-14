@@ -1,17 +1,20 @@
 name: checks
 
-on:
+on: 
   push:
     branches:
-      - main
-      
+      - main 
+
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-20.04
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
@@ -19,45 +22,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Build and Push Docker image
+        run: |
+          docker buildx build --file ./backend/Dockerfile --tag ${{ secrets.DOCKERHUB_USER }}/image-registry:latest --push .
+
       - name: Test
         run: docker-compose run --rm backend sh -c "python manage.py wait_for_db && python manage.py test"
-
-      - name: Build Docker Images (UI & Backend)
-        run: docker-compose build
-
-      - name: Push Docker image to Docker Hub
-        run: |
-          docker tag bc_wildfire-backend ${{ secrets.DOCKERHUB_USER }}/image-registry:latest
-          docker push ${{ secrets.DOCKERHUB_USER }}/image-registry:latest
-
-
-# name: checks
-
-# on: 
-#   push:
-#     branches:
-#       - main 
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-20.04
-    
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v2
-
-#       - name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v1
-
-#       - name: Login to Docker Hub
-#         uses: docker/login-action@v1
-#         with:
-#           username: ${{ secrets.DOCKERHUB_USER }}
-#           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-#       - name: Build and Push Docker image
-#         run: |
-#           docker buildx build --file ./backend/Dockerfile --tag ${{ secrets.DOCKERHUB_USER }}/image-registry:latest --push .
-
-#       - name: Test
-#         run: docker-compose run --rm backend sh -c "python manage.py wait_for_db && python manage.py test"
