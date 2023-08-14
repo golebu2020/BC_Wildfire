@@ -27,13 +27,29 @@ export default {
         capture:Object
     },
     data(){
-        return {
-            fireNo:{},
+        return{
+            postData:{}
         }
     },
     methods: {
         closePop(){
             this.$emit('close')
+        },
+        downloadCSV(){
+            axios.get('http://127.0.0.1:8000/api/wildfire/search/')
+                .then(response => {
+                this.feature_list = response.data.features
+                this.feature_list.forEach(element => {
+                    this.retrievedLocations.push({
+                    lat: element.properties.LATITUDE,
+                    lng: element.properties.LONGITUDE
+                    })
+                });
+                    
+                })
+                .catch(error => {
+                console.error(error.message);
+                });
         }
     },
     
@@ -63,6 +79,35 @@ export default {
 }
 .fire--bc--list{
     font-size: 12px;
+}
+
+.btn--download{
+    height: 30px;
+    background: #000;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 13px;
+}
+
+.btn--download:hover{
+    background: #fff;
+    color: #000;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+}
+
+.btn--download:active{
+    background: #1f1f1f;
+    color: #cecece;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cecece;
 }
 
 </style>

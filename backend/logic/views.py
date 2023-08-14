@@ -15,8 +15,6 @@ class WildFireFilterListAPIView(APIView):
         FIRE_CAUSE = []
         FIRE_STATUS = []
         response = requests.get(GlobalManager().open_map_api)
-        # response = GlobalManager().parent_url
-
         if response.status_code == 200:
             data = response.json()
             features = data.get('features')
@@ -41,8 +39,6 @@ class WildFireAPIView(APIView):
     """Generates list of filtered BC Wildfire data"""  
     def get(self, request):
         response = requests.get(GlobalManager().open_map_api)
-        # response = GlobalManager().parent_url
-
         if response.status_code == 200:
             data = response.json()
             features = data.get('features')
@@ -75,7 +71,8 @@ class WildFireAPIView(APIView):
         return Response({"error": "API request failed"}, status=500) 
     
 
-class JSONToCSVConverter(APIView):
+class downloadCSV(APIView):
+    """Generates list of filtered BC Wildfire data"""  
     def post(self, request, format=None):
         try:
             json_data = request.data.get('json_data', [])

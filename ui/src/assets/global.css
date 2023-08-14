@@ -10,7 +10,7 @@ html{
 }
 
 body{
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
     font-family: 'Rubik', Courier, monospace;
     color: #252525ec;
 }

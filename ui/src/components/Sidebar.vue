@@ -40,8 +40,8 @@
                 <div class="loading-class" v-else>Loading...</div>
             </div>
             
-            
         </div>
+        <div  class="btn--download">Download data</div>
     </div>
 </template>
 
@@ -55,9 +55,7 @@ export default {
             fireStatus:[],
             geoDesc:[],
             permLink:"",
-        };
-        
-        
+        };  
     },
     methods:{
         fetchAllFilters(){
@@ -77,6 +75,22 @@ export default {
             this.permLink = `http://127.0.0.1:8000/api/wildfire/search/?${query}=${value}`
             this.$emit('filterData', this.permLink, value, query);
         },
+        downloadCSV(){
+            axios.get('http://127.0.0.1:8000/api/wildfire/csv/')
+                .then(response => {
+                this.feature_list = response.data.features
+                this.feature_list.forEach(element => {
+                    this.retrievedLocations.push({
+                    lat: element.properties.LATITUDE,
+                    lng: element.properties.LONGITUDE
+                    })
+                });
+                    
+                })
+                .catch(error => {
+                console.error(error.message);
+                });
+        }
 
   },
   mounted(){
@@ -91,7 +105,7 @@ export default {
     height: 100vh;
     background: #fff;
     display:grid;
-    grid-template-rows: 0.5fr 2fr 2fr 5fr;
+    grid-template-rows: 0.5fr 2fr 2fr 5fr 1fr;
     margin:5px;
     
 }
@@ -102,7 +116,7 @@ export default {
   
 .geo-desc-inner{
     overflow: scroll;
-    height: 220px;
+    height: 200px;
 }
 
 .geo-desc{
