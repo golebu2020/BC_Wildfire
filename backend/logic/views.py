@@ -80,7 +80,6 @@ class downloadCSV(APIView):
             json_data = request.data.get('person')
             print(json_data)
             
-
             text_content = "\n".join([f"{item['name']} - {item['age']}" for item in json_data])
             print(text_content)
 
