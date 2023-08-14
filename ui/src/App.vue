@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Map/>
+    <Map />
   </div>
 </template>
 
@@ -15,6 +15,9 @@ export default {
   },
   components: {
     Map
+  },
+  methods:{
+  
   }
 }
 </script>

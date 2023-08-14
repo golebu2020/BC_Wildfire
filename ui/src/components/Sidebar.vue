@@ -2,18 +2,17 @@
     <div class="filter-container">
         <div class="title-container">
           <h4>Filter BC Wildfire from 2023.</h4>
-
         </div>
         <div class="fire-status border-design">
             
-            <p>Fire Cause</p>
+            <p>Fire Status</p>
             <hr>
             <div v-if="fireStatus.length>0" >
-                <ul v-for="(item1, index) in fireStatus" :key="index">
-                    <li><a class="link_style" href="#">{{item1}}</a></li>
+                <ul v-for="(item, index) in fireStatus" :key="index">
+                    <li><a @click="handleFilterClicked('fire_status',item)" class="link_style" href="#">{{item}}</a></li>
                 </ul>
             </div>
-            <div v-else>Loading...</div>
+            <div class="loading-class" v-else>Loading...</div>
         </div >
         
         <div class="fire-cause border-design">
@@ -21,10 +20,10 @@
             <hr>
             <div v-if="fireCause.length>0" >
                 <ul v-for="item in fireCause" :key="item">
-                    <li><a href="#">{{item}}</a></li>
+                    <li><a @click="handleFilterClicked('fire_cause',item)" href="#" class="link_style" >{{item}}</a></li>
                 </ul>
             </div>
-            <div v-else>Loading...</div>
+            <div class="loading-class" v-else>Loading...</div>
         </div>
         
         <div class="geo-desc border-design">
@@ -35,10 +34,10 @@
             <div class="geo-desc-inner" >
                 <div v-if="geoDesc.length>0" >
                     <ul v-for="item in geoDesc" :key="item">
-                        <li><a href="#">{{item}}</a></li>
+                        <li><a @click="handleFilterClicked('geographic_description',item)" href="#" class="link_style" >{{item}}</a></li>
                     </ul>
                 </div>
-                <div v-else>Loading...</div>
+                <div class="loading-class" v-else>Loading...</div>
             </div>
             
             
@@ -60,27 +59,32 @@ export default {
             fireCause:[],
             fireStatus:[],
             geoDesc:[],
+            permLink:"",
         };
+        
         
     },
     methods:{
         fetchAllFilters(){
-        axios.get('http://127.0.0.1:8000/api/wildfire/')
-            .then(response => {
-            
-            this.fireCause = response.data.fire_cause
-            this.fireStatus = response.data.fire_status
-            this.geoDesc = response.data.geographic_description
-            })
-            .catch(error => {
-            console.error('Error fetching data:', error.message);
-            });
-        }
-    
-   
+            axios.get('http://127.0.0.1:8000/api/wildfire/')
+                .then(response => {
+                
+                this.fireCause = response.data.fire_cause
+                this.fireStatus = response.data.fire_status
+                this.geoDesc = response.data.geographic_description
+                })
+                .catch(error => {
+                console.error('Error fetching data:', error.message);
+                });
+        },
+
+        handleFilterClicked(query,value){
+            this.permLink = `http://127.0.0.1:8000/api/wildfire/search/?${query}=${value}`
+            this.$emit('filterData', this.permLink);
+        },
+
   },
   mounted(){
-    console.log("Just Mounted")
     this.fetchAllFilters()
   }
 };
@@ -140,6 +144,12 @@ li{
 hr{
     opacity: 0.2;
     margin-bottom: 2px;
+}
+
+.loading-class{
+    text-align: center;
+    margin-top: 20px;
+    color:rgb(45, 54, 52);
 }
 
  

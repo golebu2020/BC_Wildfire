@@ -1,11 +1,16 @@
 <template>
   <div class="parent-container">
-    <div class="map-container">
-      <GmapMap :center="{ lat: 48.4701, lng: -123.4667 }"  :zoom="5" style="width: 80vw; height: 100%;" >
-        <GmapMarker v-for="(location, index) in locations" :key="index" :position="location" />
-      </GmapMap>
-    </div>
-    <Sidebar/>
+    
+      <div class="map-container">
+        <GmapMap :center="{ lat: 53.2833330, lng: -123.1333330 }"  :zoom="8" style="width: 80vw; height: 100%;" >
+          <GmapMarker v-for="(location, index) in retrievedLocations" :key="index" :position="location" />
+          <div v-if="retrievedLocations.length=0">Loading...</div>
+        </GmapMap>
+      </div>
+    
+  
+   
+    <Sidebar @filterData="triggerFilterSelected" />
   </div>
 </template>
 
@@ -20,30 +25,43 @@ export default {
   },
   data() {
     return {
-      locations: [
-        { lat: 48.4701, lng: -123.4667 },
-        { lat: 48.4067, lng: -123.5143 },
-        { lat: 49.2686, lng: -125.17 },
-
-      ],
-      retrievedLocation:[],
+      retrievedLocations:[],
     };
   },
   methods:{
     fetchAllData(){
       axios.get('http://127.0.0.1:8000/api/wildfire/search/')
         .then(response => {
-          this.retrievedLocation.append({
-            lat: response.data.features.properties.LATITUDE,
-            lng: response.data.features.properties.LONGITUDE
-          }); 
-          console.log(this.retrievedLocation)       
+          const feature_list = response.data.features
+          feature_list.forEach(element => {
+            this.retrievedLocations.push({
+              lat: element.properties.LATITUDE,
+              lng: element.properties.LONGITUDE
+            })
+          });
+              
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error.message);
+        });
+    },  
+    triggerFilterSelected(link){
+      this.retrievedLocations = []
+      axios.get(link)
+        .then(response => {
+          const feature_list = response.data
+          feature_list.forEach(element => {
+            this.retrievedLocations.push({
+              lat: element.properties.LATITUDE,
+              lng: element.properties.LONGITUDE
+            })
+          });
+              
         })
         .catch(error => {
           console.error('Error fetching data:', error.message);
         });
     }
-  
    
   },
   mounted(){

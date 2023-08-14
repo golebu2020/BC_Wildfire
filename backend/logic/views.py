@@ -15,6 +15,7 @@ class WildFireFilterListAPIView(APIView):
         FIRE_CAUSE = []
         FIRE_STATUS = []
         response = requests.get(GlobalManager().open_map_api)
+        # response = GlobalManager().parent_url
 
         if response.status_code == 200:
             data = response.json()
@@ -40,6 +41,7 @@ class WildFireAPIView(APIView):
     """Generates list of filtered BC Wildfire data"""  
     def get(self, request):
         response = requests.get(GlobalManager().open_map_api)
+        # response = GlobalManager().parent_url
 
         if response.status_code == 200:
             data = response.json()
