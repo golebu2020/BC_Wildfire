@@ -17,6 +17,8 @@
     <span class="fire--bc--list">Fire Cause: </span><span class="fire-info-value"> {{capture.FIRE_CAUSE}}</span><br>
     <span class="fire--bc--list">Fire URL: </span><span class="fire-info-value"> <a  target="_blank"  :href="capture.FIRE_URL">Check Details</a></span><br>
     <br>
+    <hr>
+    <p class="info-text">Zoom In and Out as required to <br>properly view Wildfire per location</p>
     
   </div>
 </template>
@@ -108,6 +110,11 @@ export default {
     border-style: solid;
     border-width: 1px;
     border-color: #cecece;
+}
+
+.info-text{
+    font-weight:300;
+    color: #000;
 }
 
 </style>

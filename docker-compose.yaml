@@ -20,15 +20,15 @@ services:
     depends_on:
       - db
 
-  # frontend:
-  #   build:
-  #     context: ./ui
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - 3000:80
-  #   volumes:
-  #     - ".:/ui"
-  #   command: >
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    volumes:
+      - ".:/ui"
+    command: >
 
   db:
     image: postgres:13-alpine
