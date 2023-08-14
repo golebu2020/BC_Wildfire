@@ -87,6 +87,6 @@
 - After successfully pushing the to your repository, Navigate to `Actions` tab on your repository and click on the test to monitor it (at every testing stage)
 
 ### Tracking the number of API calls:
-I implemented this functionality by creating a middleware located at ./backend/middlewares.py and registering it in the settings.py of ./backend/core. The number of calls will be displayed on the command window when you do: 
+I implemented this functionality by creating a middleware located at `./backend/middlewares.py` and registering it in the settings.py of `./backend/core`. The number of calls will be displayed on the command window when you do: 
 ###
     docker-compose up 
