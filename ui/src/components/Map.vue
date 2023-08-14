@@ -13,14 +13,18 @@
             {{filterName}}
           </div>
         </div>
-        <DisplayFireInfo :capture="capturedInfo"/>
+
+        <div v-if="isSelected">
+          <DisplayFireInfo :capture="capturedInfo" @close="closeModal"/>
+        </div>
+        <div v-else></div>
         
-      </div>
+       </div>
+    
+      <Sidebar @filterData="triggerFilterSelected" />
+    </div>
     
   
-   
-    <Sidebar @filterData="triggerFilterSelected" />
-  </div>
 </template>
 
 <script>
@@ -34,6 +38,7 @@ export default {
   components: {
     Sidebar,
     DisplayFireInfo,
+    
   },
   data() {
     return {
@@ -42,6 +47,7 @@ export default {
       filterQuery:"",
       feature_list:null,
       capturedInfo:{},
+      isSelected:false,
     };
   },
   methods:{
@@ -58,7 +64,7 @@ export default {
               
         })
         .catch(error => {
-          console.error('Error fetching data:', error.message);
+          console.error(error.message);
         });
     },  
     triggerFilterSelected(link,fName,fQuery){
@@ -78,20 +84,20 @@ export default {
               
         })
         .catch(error => {
-          console.error('Error fetching data:', error.message);
+          console.error(error.message);
         });
     },
     handleMarkerClick(index){
-      console.log('Marker has been clicked'+index)
       this.capturedInfo = this.feature_list[index].properties
-      console.log(this.capturedInfo)
-      console.log("=====================")
+      this.isSelected = true
       
+    },
+    closeModal(){
+      this.isSelected = false
     }
    
   },
   mounted(){
-    console.log("Just Mounted")
     this.fetchAllData()
   }
 };

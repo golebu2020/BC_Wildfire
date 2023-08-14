@@ -1,23 +1,23 @@
 <template>
   <div class="primary-height floating-div-display-info border-design ">
     <div class="display--title">
-        <h4>Latitude: {{capture.LATITUDE}} | Longitude: {{capture.LONGITUDE}}</h4>
-        <span class="material-symbols-outlined">
+        <p class="fire--bc--title">Latitude: {{capture.LATITUDE}} | Longitude: {{capture.LONGITUDE}}</p>
+        <span @click="closePop" class="material-symbols-outlined">
             close
         </span>
     </div>
     <hr>
-    <div v-if="!capture.isObjectEmpty">
-        <span>Fire Number: </span><span class="fire-info-value"> {{capture.FIRE_NUMBER}}</span><br>
-        <span>Response Type Description: </span><span class="fire-info-value"> {{capture.RESPONSE_TYPE_DESC}}</span><br>
-        <span>Ignition Date: </span><span class="fire-info-value"> {{capture.IGNITION_DATE}}</span><br>
-        <span>Fire Out Date: </span><span class="fire-info-value"> {{capture.FIRE_OUT_DATE}}</span><br>
-        <span>Geographic Description: </span><span class="fire-info-value"> {{capture.GEOGRAPHIC_DESCRIPTION}}</span><br>
-        <span>Fire Status: </span><span class="fire-info-value"> {{capture.FIRE_STATUS}}</span><br>
-        <span>Fire Cause: </span><span class="fire-info-value"> {{capture.FIRE_CAUSE}}</span><br>
-        <span>Fire URL: </span><span class="fire-info-value"> <a  target="_blank"  :href="capture.FIRE_URL">Check Details</a></span><br>
-        <br>
-    </div>
+    
+    <span class="fire--bc--list">Fire Number: </span><span class="fire-info-value"> {{capture.FIRE_NUMBER}}</span><br>
+    <span class="fire--bc--list">Response Type Description: </span><span class="fire-info-value"> {{capture.RESPONSE_TYPE_DESC}}</span><br>
+    <span class="fire--bc--list">Ignition Date: </span><span class="fire-info-value"> {{capture.IGNITION_DATE}}</span><br>
+    <span class="fire--bc--list">Fire Out Date: </span><span class="fire-info-value"> {{capture.FIRE_OUT_DATE}}</span><br>
+    <span class="fire--bc--list">Geographic Description: </span><span class="fire-info-value"> {{capture.GEOGRAPHIC_DESCRIPTION}}</span><br>
+    <span class="fire--bc--list">Fire Status: </span><span class="fire-info-value"> {{capture.FIRE_STATUS}}</span><br>
+    <span class="fire--bc--list">Fire Cause: </span><span class="fire-info-value"> {{capture.FIRE_CAUSE}}</span><br>
+    <span class="fire--bc--list">Fire URL: </span><span class="fire-info-value"> <a  target="_blank"  :href="capture.FIRE_URL">Check Details</a></span><br>
+    <br>
+    
   </div>
 </template>
 
@@ -31,6 +31,11 @@ export default {
             fireNo:{},
         }
     },
+    methods: {
+        closePop(){
+            this.$emit('close')
+        }
+    },
     
 }
 </script>
@@ -40,7 +45,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-left: 10px;
+    gap: 15px;
+    
 }
 .material-symbols-outlined{
     cursor: pointer;
@@ -50,7 +56,16 @@ export default {
 }
 .fire-info-value{
     font-weight: 100;
-    font-size: 14px;
+    font-size: 12px;
 }
+.fire--bc--title{
+    font-size: 15px;
+    text-align: center;
+}
+
+.fire--bc--list{
+    font-size: 12px;
+}
+
 
 </style>

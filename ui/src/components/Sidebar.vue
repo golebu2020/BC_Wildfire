@@ -1,7 +1,7 @@
 <template>
     <div class="filter-container">
         <div class="title-container">
-          <h4>Filter BC Wildfire from 2023.</h4>
+          <p class="fire--bc--title">Filter BC Wildfire from 2023.</p>
         </div>
         <div class="fire-status border-design">
             
@@ -51,11 +51,6 @@ export default {
     name: "Sidebar",
     data() {
         return {
-            // locations: [
-            //     { lat: 48.4701, lng: -123.4667 },
-            //     { lat: 48.4067, lng: -123.5143 },
-            //     { lat: 49.2686, lng: -125.17 },
-            // ],
             fireCause:[],
             fireStatus:[],
             geoDesc:[],
@@ -74,7 +69,7 @@ export default {
                 this.geoDesc = response.data.geographic_description
                 })
                 .catch(error => {
-                console.error('Error fetching data:', error.message);
+                console.error(error.message);
                 });
         },
 
@@ -132,11 +127,11 @@ a{
 }
 
 a:hover{
-    color:rgb(69, 69, 69);
+    color:crimson;
     font-weight: bold;
 }
 li{
-    margin-bottom: 10px; 
+    margin-bottom: 5px; 
    
 }
 
@@ -161,6 +156,10 @@ hr{
     color:rgb(145, 145, 145);
 }
 .align-text-center{
+    text-align: start;
+}
+.fire--bc--title{
+    font-size: 15px;
     text-align: center;
 }
 
