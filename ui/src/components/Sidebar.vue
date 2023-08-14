@@ -41,7 +41,7 @@
             </div>
             
         </div>
-        <div  class="btn--download">Download data</div>
+        <div @click="downloadCSV" class="btn--download">Download data</div>
     </div>
 </template>
 
@@ -55,6 +55,22 @@ export default {
             fireStatus:[],
             geoDesc:[],
             permLink:"",
+            postData:{
+                person:[
+                  {
+                    name:'Chinedu',
+                    age:10
+                  },
+                  {
+                    name:'Chika',
+                    age:100
+                  },
+                  {
+                    name:'Nazor',
+                    age:120
+                  },
+                ]
+            },
         };  
     },
     methods:{
@@ -76,16 +92,9 @@ export default {
             this.$emit('filterData', this.permLink, value, query);
         },
         downloadCSV(){
-            axios.get('http://127.0.0.1:8000/api/wildfire/csv/')
+            axios.post('http://127.0.0.1:8000/api/wildfire/csv/', this.postData)
                 .then(response => {
-                this.feature_list = response.data.features
-                this.feature_list.forEach(element => {
-                    this.retrievedLocations.push({
-                    lat: element.properties.LATITUDE,
-                    lng: element.properties.LONGITUDE
-                    })
-                });
-                    
+                    console.log('Response:', response.data);
                 })
                 .catch(error => {
                 console.error(error.message);

@@ -72,10 +72,11 @@ class WildFireAPIView(APIView):
     
 
 class downloadCSV(APIView):
-    """Generates list of filtered BC Wildfire data"""  
+    """Download wildfire data in the form of CSV."""  
     def post(self, request, format=None):
         try:
-            json_data = request.data.get('json_data', [])
+            json_data = request.data.get('person', [])
+            print(json_data)
             if not json_data:
                 return Response("No JSON data provided.", status=status.HTTP_400_BAD_REQUEST)
             

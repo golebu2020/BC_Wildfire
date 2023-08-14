@@ -2,7 +2,6 @@
   <div class="parent-container">
     
       <div class="map-container">
-        <!-- <div>Heys</div> -->
         <GmapMap :center="{ lat: 53.2833330, lng: -123.1333330 }"  :zoom="8" style="width: 80vw; height: 100%;" >
           <GmapMarker @click="handleMarkerClick(index)" v-for="(location, index) in retrievedLocations" :key="index" :position="location" />
         </GmapMap>
@@ -106,9 +105,6 @@ export default {
 <style>
 .parent-container {
   display: flex;
-}
-.map-container {
-  background: blue;
 }
 
 .parent-container {

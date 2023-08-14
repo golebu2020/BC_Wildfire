@@ -6,3 +6,4 @@ drf-spectacular>=0.21.1,<0.23
 django-cors-headers
 requests
 python-decouple
+
