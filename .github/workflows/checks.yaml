@@ -15,8 +15,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        run: |
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+        # run: |
+        #   echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,5 +26,5 @@ jobs:
       
       - name: Push Docker image to Docker Hub
         run: |
-          docker tag bc_wildfire-backend $DOCKER_USERNAME/image-registry:latest
-          docker push $DOCKER_USERNAME/image-registry:latest
+          docker tag bc_wildfire-backend $username/image-registry:latest
+          docker push $username/image-registry:latest
