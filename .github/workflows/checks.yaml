@@ -4,8 +4,8 @@ name: checks
 on: [push]
 
 jobs:
-  test-and-lint:
-    name: test-and-lint
+  test:
+    name: test
     runs-on: ubuntu-20.04
     steps:
       - name: Login to Docker hub
