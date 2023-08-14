@@ -20,7 +20,7 @@
         
        </div>
     
-      <Sidebar @filterData="triggerFilterSelected" />
+      <Sidebar :feature_list="feature_list" @filterData="triggerFilterSelected" />
     </div>
     
   
@@ -73,8 +73,8 @@ export default {
     .join(' ');
       axios.get(link)
         .then(response => {
-          const feature_list = response.data
-          feature_list.forEach(element => {
+          this.feature_list = response.data
+          this.feature_list.forEach(element => {
             this.retrievedLocations.push({
               lat: element.properties.LATITUDE,
               lng: element.properties.LONGITUDE

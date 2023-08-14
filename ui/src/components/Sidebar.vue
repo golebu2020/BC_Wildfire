@@ -1,8 +1,5 @@
 <template>
     <div class="filter-container">
-        <div class="title-container">
-          <p class="fire--bc--title">Filter BC Wildfire from 2023.</p>
-        </div>
         <div class="fire-status border-design">
             
             <p class="align-text-center">Fire Status</p>
@@ -47,30 +44,19 @@
 
 <script>
 import axios from 'axios';
+import { jsonToPlainText } from "json-to-plain-text";
 export default {
     name: "Sidebar",
+    props:{
+        feature_list:Array,
+    },
     data() {
         return {
             fireCause:[],
             fireStatus:[],
             geoDesc:[],
             permLink:"",
-            postData:{
-                person:[
-                  {
-                    name:'Chinedu',
-                    age:10
-                  },
-                  {
-                    name:'Chika',
-                    age:100
-                  },
-                  {
-                    name:'Nazor',
-                    age:120
-                  },
-                ]
-            },
+            jsonData: {},
         };  
     },
     methods:{
@@ -92,13 +78,19 @@ export default {
             this.$emit('filterData', this.permLink, value, query);
         },
         downloadCSV(){
-            axios.post('http://127.0.0.1:8000/api/wildfire/csv/', this.postData)
-                .then(response => {
-                    console.log('Response:', response.data);
-                })
-                .catch(error => {
-                console.error(error.message);
-                });
+            this.jsonData = this.feature_list
+            const plainText = jsonToPlainText(this.jsonData);
+            console.log(plainText);
+
+            const blob = new Blob([plainText], { type: 'text/plain' }); 
+            const url = URL.createObjectURL(blob); 
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'BC_Wildfire.txt'; 
+            a.click();
+
+            URL.revokeObjectURL(url);
         }
 
   },

@@ -1,3 +1,4 @@
+from io import StringIO
 import requests
 import csv
 from django.http import HttpResponse
@@ -6,6 +7,7 @@ from rest_framework.views import APIView
 from http import HTTPStatus
 from core.global_manager import GlobalManager
 from rest_framework import status
+import json
 
 
 class WildFireFilterListAPIView(APIView):
@@ -75,23 +77,17 @@ class downloadCSV(APIView):
     """Download wildfire data in the form of CSV."""  
     def post(self, request, format=None):
         try:
-            json_data = request.data.get('person', [])
+            json_data = request.data.get('person')
             print(json_data)
-            if not json_data:
-                return Response("No JSON data provided.", status=status.HTTP_400_BAD_REQUEST)
             
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="data.csv"'
-            
-            csv_writer = csv.writer(response)
-            keys = json_data[0].keys()
-            csv_writer.writerow(keys)
-            
-            for item in json_data:
-                csv_writer.writerow(item.values())
-            
+
+            text_content = "\n".join([f"{item['name']} - {item['age']}" for item in json_data])
+            print(text_content)
+
+            response = HttpResponse(text_content, content_type='text/plain')
+            response['Content-Disposition'] = 'attachment; filename="data.txt"'
             return response
-        
+
         except Exception as e:
             return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
