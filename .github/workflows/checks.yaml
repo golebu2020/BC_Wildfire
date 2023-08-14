@@ -23,7 +23,7 @@ jobs:
         run: docker-compose run --rm backend sh -c "python manage.py wait_for_db && python manage.py test"
 
       - name: Build Docker Images (UI & Backend)
-        run: docker-compose up -d
+        run: docker-compose build
 
       - name: Push Docker image to Docker Hub
         run: |
