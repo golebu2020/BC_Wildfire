@@ -1,34 +1,34 @@
----
 name: checks
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Login to Docker hub
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USER }}  
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}  
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-        # run: |
-        #   echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-
-      - name: Checkout
-        uses: actions/checkout@v2
 
       - name: Test
-        run: docker-compose run --rm backend sh -c "python manage.py wait_for_db &&  python manage.py test"
-      
+        run: docker-compose run --rm backend sh -c "python manage.py wait_for_db && python manage.py test"
+
       - name: Build Docker Images (UI & Backend)
         run: docker-compose up -d
-      
+
       - name: Push Docker image to Docker Hub
-        run: docker tag bc_wildfire-backend $username/image-registry:latest && docker push $username/image-registry:latest
+        run: |
+          docker tag bc_wildfire-backend ${{ secrets.DOCKERHUB_USER }}/image-registry:latest
+          docker push ${{ secrets.DOCKERHUB_USER }}/image-registry:latest
 
 
 # name: checks
