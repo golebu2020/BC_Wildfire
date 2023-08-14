@@ -22,9 +22,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Docker image
-        run: |
-          docker buildx build --file ./backend/Dockerfile --tag ${{ secrets.DOCKERHUB_USER }}/image-registry:latest --push .
-
       - name: Test
         run: docker-compose run --rm backend sh -c "python manage.py wait_for_db && python manage.py test"
+
+      - name: Build backend image
+        run: |
+          docker buildx build --file ./backend/Dockerfile --tag ${{ secrets.DOCKERHUB_USER }}/image-registry:backend_app-1.0.0 --push .
+
+      - name: Build ui image
+        run: |
+          docker buildx build --file ./ui/Dockerfile --tag ${{ secrets.DOCKERHUB_USER }}/image-registry:frontend_app-1.0.0 --push .
+     
