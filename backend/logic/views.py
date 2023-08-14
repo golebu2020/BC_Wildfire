@@ -17,6 +17,9 @@ class WildFireFilterListAPIView(APIView):
         FIRE_CAUSE = []
         FIRE_STATUS = []
         response = requests.get(GlobalManager().open_map_api)
+
+        call_count = getattr(request, 'call_count', 0)
+
         if response.status_code == 200:
             data = response.json()
             features = data.get('features')
@@ -28,11 +31,16 @@ class WildFireFilterListAPIView(APIView):
             GEOGRAPHIC_DESCRIPTION = list(set(GEOGRAPHIC_DESCRIPTION))
             FIRE_CAUSE = list(set(FIRE_CAUSE))
             FIRE_STATUS = list(set(FIRE_STATUS))
+
+            # Number of calls made to the API
+            print("Call Count = ", call_count)
             return Response({
                 'geographic_description': GEOGRAPHIC_DESCRIPTION,
                 'fire_cause': FIRE_CAUSE,
                 'fire_status': FIRE_STATUS,
             }, status=HTTPStatus.OK)
+        
+
         else:
             return Response({"error": "API request failed"}, status=500)
         
@@ -41,6 +49,9 @@ class WildFireAPIView(APIView):
     """Generates list of filtered BC Wildfire data"""  
     def get(self, request):
         response = requests.get(GlobalManager().open_map_api)
+
+        call_count = getattr(request, 'call_count', 0)
+
         if response.status_code == 200:
             data = response.json()
             features = data.get('features')
@@ -60,6 +71,9 @@ class WildFireAPIView(APIView):
                 query_string = "geographic_description" 
             
             if len(request.query_params) == 0:
+                # Number of calls made to the API
+                
+                print("Call Count = ", call_count)
                 return Response({'features':features})
 
             if query_string is not None:
@@ -68,27 +82,12 @@ class WildFireAPIView(APIView):
                     if query_value == request.query_params.get(query_string):
                         filtered_features_2023.append(new_feature_2023)
 
+                 # Number of calls made to the API
+                print("Call Count = ", call_count)
                 return Response(filtered_features_2023, status=HTTPStatus.OK)
         
         return Response({"error": "API request failed"}, status=500) 
     
-
-class downloadCSV(APIView):
-    """Download wildfire data in the form of CSV."""  
-    def post(self, request, format=None):
-        try:
-            json_data = request.data.get('person')
-            print(json_data)
-            
-            text_content = "\n".join([f"{item['name']} - {item['age']}" for item in json_data])
-            print(text_content)
-
-            response = HttpResponse(text_content, content_type='text/plain')
-            response['Content-Disposition'] = 'attachment; filename="data.txt"'
-            return response
-
-        except Exception as e:
-            return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
