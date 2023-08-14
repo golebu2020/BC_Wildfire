@@ -30,6 +30,8 @@ jobs:
           docker buildx build --file ./backend/Dockerfile --tag ${{ secrets.DOCKERHUB_USER }}/image-registry:backend_app-1.0.0 --push .
 
       - name: Build ui image
+        shell: bash
         run: |
           docker buildx build --file ./ui/Dockerfile --tag ${{ secrets.DOCKERHUB_USER }}/image-registry:frontend_app-1.0.0 --push .
+
      
