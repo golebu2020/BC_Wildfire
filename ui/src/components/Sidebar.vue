@@ -49,6 +49,7 @@ export default {
     name: "Sidebar",
     props:{
         feature_list:Array,
+        activateRedownload:Boolean,
     },
     data() {
         return {
@@ -96,7 +97,12 @@ export default {
   },
   mounted(){
     this.fetchAllFilters()
-  }
+  },
+  updated() {
+    if(this.activateRedownload){
+        this.fetchAllFilters()
+    }
+  },
 };
 </script>
 

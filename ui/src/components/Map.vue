@@ -18,9 +18,11 @@
         </div>
         <div v-else></div>
         
+        <div @click="reDownload" class="btn--reload floating-div-reload">Failed? Reload.</div>
+        
        </div>
-    
-      <Sidebar :feature_list="feature_list" @filterData="triggerFilterSelected" />
+      
+      <Sidebar :activateRedownload="activateRedownload" :feature_list="feature_list" @filterData="triggerFilterSelected" />
     </div>
     
   
@@ -47,6 +49,8 @@ export default {
       feature_list:null,
       capturedInfo:{},
       isSelected:false,
+      errorMessage:"",
+      activateRedownload:false,
     };
   },
   methods:{
@@ -63,7 +67,11 @@ export default {
               
         })
         .catch(error => {
-          console.error(error.message);
+          console.log("Errrrrr")
+          console.log(error.message)
+
+          this.errorMesssage = error
+          console.log("========")
         });
     },  
     triggerFilterSelected(link,fName,fQuery){
@@ -93,6 +101,10 @@ export default {
     },
     closeModal(){
       this.isSelected = false
+    },
+    reDownload(){
+      this.fetchAllData()
+      this.activateRedownload=true
     }
    
   },
@@ -123,6 +135,50 @@ export default {
 hr{
   opacity: 0.2;
   margin-bottom: 5px;
+}
+
+.floating-div-reload {
+  height: 40px;
+  width: fit-content;
+  position: absolute;
+  background: #fff;
+  border-radius: 5px;
+  top: 0;
+  left: -200px;
+  margin-top:10px;
+  transform: translateX(700px);
+  z-index: 1; 
+}
+
+
+.btn--reload{
+  height: 30px;
+  background: #000;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.btn--reload:hover{
+  background: #fff;
+  color: #000;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000;
+}
+
+.btn--reload:active{
+  background: #1f1f1f;
+  color: #cecece;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #cecece;
 }
 
 </style>
