@@ -5,9 +5,10 @@ import "./assets/global.css";
 
 
 Vue.config.productionTip = false
+let varS = "fiuiuqlk2hfolvkjeoevkesfewn~AIzaSyB90nncGUhKa-lbLABMROQyUJa5CNNifds)RTtrvcnalfjw[;g]mjvdjsfjjhgh"
 Vue.use(VueGoogleMaps, {
   load: {
-    key:hash,
+    key:varS.substring(varS.indexOf('~')+1, varS.indexOf(')'))
   },
 });
 
