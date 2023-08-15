@@ -1,4 +1,4 @@
-# BC WildFire View Full stack App Overview
+# BC WildFire Viewer Full stack App Overview
 ![Alt Text](https://firebasestorage.googleapis.com/v0/b/poster-f8926.appspot.com/o/app-screenshot.png?alt=media&token=c184c4ec-f845-4fbe-8698-cdb7913ce122)
 ## Frameworks Used
 
