@@ -104,6 +104,9 @@ export default {
   height: 30px;
   background: #000;
   width: 100%;
+  padding: 5px 2px;
+  margin-left: 5px;
+  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -11,7 +11,9 @@
           v-for="(location, index) in retrievedLocations"
           :key="index"
           :position="location"
-        />
+          icon="https://firebasestorage.googleapis.com/v0/b/poster-f8926.appspot.com/o/profile_pictures%2Fplaceholder%20(1).png?alt=media&token=707e5af5-3ef8-46ab-9152-e6cc7441e08d"
+        >
+        </GmapMarker>
       </GmapMap>
       <div v-if="filterName != ''">
         <div class="floating-div border-design">
@@ -43,6 +45,7 @@
 import Sidebar from "./Sidebar.vue";
 import DisplayFireInfo from "./DisplayFireInfo.vue";
 import axios from "axios";
+import { locationIconURL } from "@/Icon";
 
 export default {
   components: {
