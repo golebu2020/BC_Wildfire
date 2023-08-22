@@ -1,17 +1,17 @@
 <template>
   <div class="parent-container">
     <div class="map-container">
+      <p class="map-title">BC 2023 Wildfire Viewer</p>
       <GmapMap
-        :center="{ lat: 53.283333, lng: -123.133333 }"
+        :center="{ lat: centerLat, lng: centerLng }"
         :zoom="8"
-        style="width: 80vw; height: 100%"
+        style="width: 80vw; height: 100%; margin-top: -10px"
       >
         <GmapMarker
           @click="handleMarkerClick(index)"
           v-for="(location, index) in retrievedLocations"
           :key="index"
           :position="location"
-          icon="https://firebasestorage.googleapis.com/v0/b/poster-f8926.appspot.com/o/profile_pictures%2Fplaceholder%20(1).png?alt=media&token=707e5af5-3ef8-46ab-9152-e6cc7441e08d"
         >
         </GmapMarker>
       </GmapMap>
@@ -24,7 +24,11 @@
       </div>
 
       <div v-if="isSelected">
-        <DisplayFireInfo :capture="capturedInfo" @close="closeModal" />
+        <DisplayFireInfo
+          class="display-fire-info"
+          :capture="capturedInfo"
+          @close="closeModal"
+        />
       </div>
       <div v-else></div>
 
@@ -45,7 +49,6 @@
 import Sidebar from "./Sidebar.vue";
 import DisplayFireInfo from "./DisplayFireInfo.vue";
 import axios from "axios";
-import { locationIconURL } from "@/Icon";
 
 export default {
   components: {
@@ -62,6 +65,8 @@ export default {
       isSelected: false,
       errorMessage: "",
       activateRedownload: false,
+      centerLat: 53.283333,
+      centerLng: -123.133333,
     };
   },
   methods: {
@@ -100,6 +105,14 @@ export default {
               lng: element.properties.LONGITUDE,
             });
           });
+          this.calculateAverage();
+          // if (this.retrievedLocations.length === 1) {
+          //   this.centerLat = this.retrievedLocations[0].lat;
+          //   this.centerLng = this.retrievedLocations[0].lng;
+          //   console.log("The values are: ");
+          //   console.log(this.retrievedLocations[0].lat);
+          //   console.log(this.retrievedLocations[0].lng);
+          // }
         })
         .catch((error) => {
           console.error(error.message);
@@ -115,6 +128,20 @@ export default {
     reDownload() {
       this.fetchAllData();
       this.activateRedownload = true;
+    },
+
+    calculateAverage() {
+      let total = this.retrievedLocations.length;
+      let totalLat = 0;
+      let totalLng = 0;
+      this.retrievedLocations.forEach((element) => {
+        totalLat = totalLat + element.lat;
+        totalLng = totalLng + element.lng;
+      });
+      this.centerLat = totalLat / total;
+      this.centerLng = totalLng / total;
+      console.log(this.centerLat);
+      console.log(this.centerLng);
     },
   },
   mounted() {
@@ -154,7 +181,7 @@ hr {
   border-radius: 5px;
   top: 0;
   left: -200px;
-  margin-top: 10px;
+  margin-top: 70px;
   transform: translateX(700px);
   z-index: 1;
 }
@@ -187,5 +214,24 @@ hr {
   border-style: solid;
   border-width: 1px;
   border-color: #cecece;
+}
+.map-container {
+  overflow: hidden;
+  height: 97vh;
+  width: 80vw;
+  margin-top: 10px;
+  margin-left: 10px;
+  box-shadow: 1px 1px 3px 0.4px rgba(38, 38, 38, 0.459);
+  border-radius: 5px;
+}
+.map-title {
+  width: 100%;
+  background: #1f1f1f;
+  color: #cecece;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
 }
 </style>

@@ -25,8 +25,8 @@ export default {
   width: fit-content;
   position: absolute;
   background: #fff;
-  border-radius: 5px;
-  top: 0;
+  border-radius: 20px;
+  top: 68px;
   left: 0;
   transform: translateX(700px);
   z-index: 1;
@@ -38,7 +38,7 @@ export default {
   position: absolute;
   background: #fff;
   border-radius: 5px;
-  top: 200px;
+  top: 300px;
   left: -255px;
   transform: translateX(300px);
   z-index: 1;
