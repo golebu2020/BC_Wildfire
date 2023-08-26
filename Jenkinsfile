@@ -20,6 +20,7 @@ pipeline{
             steps{
                 script{
                     echo "The Workspace is: ${WORKSPACE}"
+                    sh "cat ${WORKSPACE}/version.xml"
                 }
             }
         }
