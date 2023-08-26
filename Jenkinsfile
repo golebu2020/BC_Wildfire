@@ -20,7 +20,7 @@ pipeline{
                     sh "docker-compose build"
 
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
-                        sh "echo {PASS} | docker login --username {USER} --password-stdin"
+                        sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
 
                     }
                 }
