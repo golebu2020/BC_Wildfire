@@ -7,16 +7,13 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "backend:/app"
+      - "./backend:/app"
     command: >
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
-    environment:
-      - DB_HOST=db
-      - DB_USER=devuser
-      - DB_PASSWORD=devpassword
-      - DB_NAME=databasename
+    env_file:
+      - ./.env.dev
     depends_on:
       - db
 
@@ -33,11 +30,8 @@ services:
     image: postgres:13-alpine
     volumes:
       - postgres-db-data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=devuser
-      - POSTGRES_PASSWORD=devpassword
-      - POSTGRES_DB=databasename
+    env_file:
+      - ./.env.dev
 
 volumes:
   postgres-db-data:
-  backend:
