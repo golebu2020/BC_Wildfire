@@ -7,7 +7,7 @@ pipeline{
             steps{
                 script{
                     echo "Building image..."
-                    sh "./ui/docker build --tag ui ."
+                    sh "docker-compose --version"
                 }
             }
         }
