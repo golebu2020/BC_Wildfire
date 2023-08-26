@@ -3,7 +3,7 @@
 pipeline{
     agent any
     environment{
-        TAG="1.0.3"
+        TAG="1.0.4"
     }
     stages{
         stage("test"){
