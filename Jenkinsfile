@@ -4,6 +4,7 @@ pipeline{
     agent any
     environment{
         TAG="1.0.4"
+        WORKSPACE=pwd()
     }
     stages{
         stage("test"){
@@ -11,6 +12,14 @@ pipeline{
                 script{
                     echo "##########################Imnplementing linting and testing for web#############################"
                     sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
+                }
+            }
+        }
+
+        stage("increment patch tag"){
+            steps{
+                script{
+                    echo "The Workspace is: ${WORKSPACE}"
                 }
             }
         }
