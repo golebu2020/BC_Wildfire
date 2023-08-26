@@ -21,6 +21,14 @@ pipeline{
                 script{
                     echo "The Workspace is: ${WORKSPACE}"
                     sh "cat ${WORKSPACE}/version.xml"
+                    def file = readFile("${WORKSPACE}/version.xml")
+                    def majorTag = file[0]
+                    def minorTag = file[1]
+                    def patchTag = file[2]
+
+                    echo "major tag is ${majorTag}"
+                    echo "minor tag is ${minorTag}"
+                    echo "patcg tag is ${patchTag}"
                 }
             }
         }
