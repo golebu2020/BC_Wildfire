@@ -8,7 +8,6 @@ pipeline{
                 script{
                     echo "##########################Imnplementing linting and testing#############################"
                     sh "docker-compose run web  sh -c 'python manage.py test'"
-
                 }
             }
         }
