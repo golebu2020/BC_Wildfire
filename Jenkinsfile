@@ -7,7 +7,8 @@ pipeline{
             steps{
                 script{
                     echo "Building image..."
-                    sh "docker-compose up -d"
+                    // sh "docker-compose up -d"
+                    sh "docker ps"
                 }
             }
         }
