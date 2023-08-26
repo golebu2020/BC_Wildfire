@@ -26,8 +26,8 @@ pipeline{
                         sh """ echo ${PASS} | docker login --username ${USER} --password-stdin && \
                                docker tag bc_wildfire_web:1.0.0 golebu2023/image-registry:bc_wildfire_web-${TAG} && \
                                docker tag bc_wildfire_ui:1.0.0 golebu2023/image-registry:bc_wildfire_ui-${TAG} && \
-                               docker push golebu2023/image-registry:bc_wildfire_web-1.0.0 && \
-                               docker push golebu2023/image-registry:bc_wildfire_ui-1.0.0 
+                               docker push golebu2023/image-registry:bc_wildfire_web-${TAG} && \
+                               docker push golebu2023/image-registry:bc_wildfire_ui-${TAG} 
                            """
                     }
                 }
