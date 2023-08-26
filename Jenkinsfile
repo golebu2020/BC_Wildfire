@@ -15,9 +15,14 @@ pipeline{
         stage("build and push"){
             steps{
                 script{
+                    // docker push golebu2023/image-registry:tagname
                     echo "#########################Building image################################################"
                     sh "docker-compose build"
-                    
+
+                    withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
+                        sh "echo {PASS} | docker login --username {USER} --password-stdin"
+
+                    }
                 }
             }
         }
