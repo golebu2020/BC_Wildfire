@@ -1,5 +1,11 @@
 #! /usr/bin/env bash
 
+
+def majorTag
+def minorTag
+def patchTag
+def file
+
 pipeline{
     agent any
     environment{
@@ -19,17 +25,14 @@ pipeline{
         stage("increment patch tag"){
             steps{
                 script{
-                    echo "The Workspace is: ${WORKSPACE}"
-                    sh "cat ${WORKSPACE}/version.xml"
-                    def file = readFile("${WORKSPACE}/version.xml")
+                    file = readFile("${WORKSPACE}/version.xml")
                     def matcher = file.split(",")
-                    def majorTag = matcher[0]
-                    def minorTag = matcher[1]
-                    def patchTag = matcher[2]
-
-                    echo "major tag is ${majorTag}"
-                    echo "minor tag is ${minorTag}"
-                    echo "patcg tag is ${patchTag}"
+                    majorTag = matcher[0]
+                    minorTag = matcher[1]
+                    patchTag = matcher[2]
+                    
+                    patchTag = patchTag as Integer
+                    patchTag = patchTag + 1
                 }
             }
         }
@@ -45,10 +48,11 @@ pipeline{
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
                         sh "bash ./sh_command.sh ${TAG}"
                     }
+
+                    writeFile(file, "${majorTag},${minorTag},${patchTag}", "UTF-8")
                 }
             }
         }
-
 
         stage("deploy"){
             steps{
