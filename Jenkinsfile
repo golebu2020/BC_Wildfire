@@ -20,11 +20,12 @@ pipeline{
                     sh "docker-compose build"
 
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
-                        sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-                        sh "docker tag bc_wildfire_web:1.0.0 golebu2023/image-registry:bc_wildfire_web-1.0.0 "
-                        sh "docker tag bc_wildfire_ui:1.0.0 golebu2023/image-registry:bc_wildfire_ui-1.0.0 "
-                        sh "docker push golebu2023/image-registry:bc_wildfire_web-1.0.0"
-                        sh "docker push golebu2023/image-registry:bc_wildfire_ui-1.0.0"
+                        sh """ echo ${PASS} | docker login --username ${USER} --password-stdin && \
+                               docker tag bc_wildfire_web:1.0.0 golebu2023/image-registry:bc_wildfire_web-1.0.0 && \
+                               docker tag bc_wildfire_ui:1.0.0 golebu2023/image-registry:bc_wildfire_ui-1.0.0 && \
+                               docker push golebu2023/image-registry:bc_wildfire_web-1.0.0 && \
+                               docker push golebu2023/image-registry:bc_wildfire_ui-1.0.0 
+                           """
                     }
                 }
             }
