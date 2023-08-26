@@ -49,7 +49,7 @@ pipeline{
                         sh "bash ./sh_command.sh ${TAG}"
                     }
 
-                    writeFile(file, "${majorTag},${minorTag},${patchTag}", "UTF-8")
+                    writeFile(file: "${WORKSPACE}/version.xml", text: "${majorTag},${minorTag},${patchTag}", encoding: "UTF-8")
                 }
             }
         }
