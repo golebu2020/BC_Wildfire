@@ -36,7 +36,7 @@ pipeline{
                 script{
                     echo "##########################Imnplementing linting and testing for web#############################"
                     TAG = "${majorTag}.${minorTag}.${patchTag}"
-                    sh "bash ./sh_command.sh ${TAG}"
+                    sh "bash ./sh_linting_testing.sh ${TAG}"
                 }
             }
         }
