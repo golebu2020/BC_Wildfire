@@ -58,7 +58,7 @@ pipeline{
                             docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG}
                         """ 
                     }  
-                    writeFile(file: "${WORKSPACE}/version.xml", text: "${majorTag},${minorTag},${patchTag}", encoding: "UTF-8")
+                    writeFile(file: "${WORKSPACE}/version.xml", text: "${TAG}", encoding: "UTF-8")
                 }
             }
         }
