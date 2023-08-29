@@ -5,6 +5,7 @@ def majorTag
 def minorTag
 def patchTag
 def file
+def TAG
 
 pipeline{
     agent any
@@ -14,15 +15,6 @@ pipeline{
         WEB_REG = 'golebu2023/image-registry:bc_wildfire_web'
     }
     stages{
-        stage("test"){
-            steps{
-                script{
-                    echo "##########################Imnplementing linting and testing for web#############################"
-                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
-                }
-            }
-        }
-
         stage("increment patch tag"){
             steps{
                 script{
@@ -38,6 +30,17 @@ pipeline{
                 }
             }
         }
+        
+        stage("test"){
+            steps{
+                script{
+                    echo "##########################Imnplementing linting and testing for web#############################"
+                    TAG = "${majorTag}.${minorTag}.${patchTag}"
+                    sh "bash ./sh_command.sh ${TAG}"
+                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
+                }
+            }
+        }
 
         stage("build and push"){
             steps{
@@ -45,8 +48,6 @@ pipeline{
                     // docker push golebu2023/image-registry:tagname
                     echo "#########################Building Image and pushing to Container Repo################################################"
                     
-                    def TAG = "${majorTag}.${minorTag}.${patchTag}"
-                    sh "bash ./sh_command.sh ${TAG}"
                     sh "docker-compose build"
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
