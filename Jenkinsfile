@@ -37,6 +37,7 @@ pipeline{
                     echo "##########################Imnplementing linting and testing for web#############################"
                     TAG = "${majorTag}.${minorTag}.${patchTag}"
                     sh "bash ./sh_command.sh ${TAG}"
+                    sh "docker-compose build"
                     sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
                 }
             }
