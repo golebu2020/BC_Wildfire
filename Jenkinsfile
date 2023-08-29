@@ -9,8 +9,9 @@ def file
 pipeline{
     agent any
     environment{
-        TAG="1.0.0"
         WORKSPACE=pwd()
+        UI_REG = 'golebu2023/image-registry:bc_wildfire_ui'
+        WEB_REG = 'golebu2023/image-registry:bc_wildfire_web'
     }
     stages{
         stage("test"){
@@ -25,6 +26,7 @@ pipeline{
         stage("increment patch tag"){
             steps{
                 script{
+                    echo "##########################Imcrementing Patch Tag#############################"
                     file = readFile("${WORKSPACE}/version.xml")
                     def matcher = file.split(",")
                     majorTag = matcher[0]
@@ -41,22 +43,22 @@ pipeline{
             steps{
                 script{
                     // docker push golebu2023/image-registry:tagname
-                    echo "#########################Building image################################################"
+                    echo "#########################Building Image and pushing to Container Repo################################################"
+                    
+                    def TAG = "${majorTag}.${minorTag}.${patchTag}"
+                    sh "bash ./sh_command.sh ${TAG}"
                     sh "docker-compose build"
-
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
+                       
                         sh """
-                            docker tag bc_wildfire_web:${TAG} golebu2023/image-registry:bc_wildfire_web-${TAG}
-                            docker tag bc_wildfire_ui:${TAG} golebu2023/image-registry:bc_wildfire_ui-${TAG}
-                            docker push golebu2023/image-registry:bc_wildfire_web-${TAG}
-                            docker push golebu2023/image-registry:bc_wildfire_ui-${TAG} 
-                            docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG} 
-                        
-                        """
-                        sh "bash ./sh_command.sh ${TAG}"
-                    }
-
+                            docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} && 
+                            docker tag bc_wildfire_ui:${TAG} ${UI_REG}-${TAG} &&
+                            docker push ${WEB_REG}-${TAG} &&
+                            docker push ${UI_REG}-${TAG} &&
+                            docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG}
+                        """ 
+                    }  
                     writeFile(file: "${WORKSPACE}/version.xml", text: "${majorTag},${minorTag},${patchTag}", encoding: "UTF-8")
                 }
             }
@@ -66,6 +68,23 @@ pipeline{
             steps{
                 script{
                     echo "Deploying image to AWS EC2..."
+                }
+            }
+        }
+
+        stage("push update commit"){
+            steps{
+                script{
+                    echo "##########################Pushing the updated commit to github...#############################"
+                    withCredentials([usernamePassord('credentialsId': 'github-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
+                        sh """
+                            git config --global user.email 'jenkins-server@gmail.com' &&
+                            git config --global user.name 'jenkins-server' &&
+                            git commit -am 'jenkins push commit update' &&
+                            git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git &&
+                            git push origin HEAD:jenkins-pipeline 
+                        """
+                    }
                 }
             }
         }
