@@ -41,52 +41,51 @@ pipeline{
             }
         }
 
-        // stage("build and push"){
-        //     steps{
-        //         script{
-        //             // docker push golebu2023/image-registry:tagname
-        //             echo "#########################Building Image and pushing to Container Repo################################################"
+        stage("build and push"){
+            steps{
+                script{
+                    echo "#########################Building Image and pushing to Container Repo################################################"
                     
-        //             sh "docker-compose build"
-        //             withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
-        //                 sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
+                    sh "docker-compose build"
+                    withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
+                        sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
                        
-        //                 sh """
-        //                     docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} && 
-        //                     docker tag bc_wildfire_ui:${TAG} ${UI_REG}-${TAG} &&
-        //                     docker push ${WEB_REG}-${TAG} &&
-        //                     docker push ${UI_REG}-${TAG} &&
-        //                     docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG}
-        //                 """ 
-        //             }  
-        //             writeFile(file: "${WORKSPACE}/version.xml", text: "${majorTag},${minorTag},${patchTag}", encoding: "UTF-8")
-        //         }
-        //     }
-        // }
+                        sh """
+                            docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} && 
+                            docker tag bc_wildfire_ui:${TAG} ${UI_REG}-${TAG} &&
+                            docker push ${WEB_REG}-${TAG} &&
+                            docker push ${UI_REG}-${TAG} &&
+                            docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG}
+                        """ 
+                    }  
+                    writeFile(file: "${WORKSPACE}/version.xml", text: "${majorTag},${minorTag},${patchTag}", encoding: "UTF-8")
+                }
+            }
+        }
 
-        // stage("deploy"){
-        //     steps{
-        //         script{
-        //             echo "Deploying image to AWS EC2..."
-        //         }
-        //     }
-        // }
+        stage("deploy"){
+            steps{
+                script{
+                    echo "Deploying image to AWS EC2..."
+                }
+            }
+        }
 
-        // stage("push update commit"){
-        //     steps{
-        //         script{
-        //             echo "##########################Pushing the updated commit to github...#############################"
-        //             withCredentials([usernamePassord('credentialsId': 'github-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
-        //                 sh """
-        //                     git config --global user.email 'jenkins-server@gmail.com' &&
-        //                     git config --global user.name 'jenkins-server' &&
-        //                     git commit -am 'jenkins push commit update' &&
-        //                     git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git &&
-        //                     git push origin HEAD:jenkins-pipeline 
-        //                 """
-        //             }
-        //         }
-        //     }
-        // }
+        stage("push update commit"){
+            steps{
+                script{
+                    echo "##########################Pushing the updated commit to github...#############################"
+                    withCredentials([usernamePassord('credentialsId': 'github-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
+                        sh """
+                            git config --global user.email 'jenkins-server@gmail.com' &&
+                            git config --global user.name 'jenkins-server' &&
+                            git commit -am 'jenkins push commit update' &&
+                            git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git &&
+                            git push origin HEAD:jenkins-pipeline 
+                        """
+                    }
+                }
+            }
+        }
     }
 }
