@@ -9,7 +9,7 @@ def file
 pipeline{
     agent any
     environment{
-        TAG="1.0.4"
+        TAG="1.0.0"
         WORKSPACE=pwd()
     }
     stages{
@@ -32,7 +32,7 @@ pipeline{
                     patchTag = matcher[2]
                     
                     patchTag = patchTag as Integer
-                    patchTag = patchTag + 1
+                    patchTag++
                 }
             }
         }
