@@ -27,7 +27,7 @@ pipeline{
             steps{
                 script{
                     echo "Building..."
-                    withCredentials([usernamePassword(credentialsId:'github-credentials', usernameVariable: 'USR', passwordVariable: 'PASS')]){
+                    withCredentials([usernamePassword(credentialsId:'gitlab-credentials', usernameVariable: 'USR', passwordVariable: 'PASS')]){
                         sh "docker tag bc_wildfire_web:${tag} golebu2023/image-registry:bc_wildfire_web-${tag}"
                         sh "docker tag bc_wildfire_ui:${tag} golebu2023/image-registry:bc_wildfire_ui-${tag}"
                         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tag}"
@@ -60,12 +60,17 @@ pipeline{
             }
         }
 
-        stage("update commit"){
-            steps{
-                script{
-                    echo "Updating commit version"
-                }
-            }
-        }
+        // stage("update commit"){
+        //     steps{
+        //         script{
+        //             echo "Updating commit version"
+        //             sh "git config --global user.email 'jenkins-server@gmail.com'"
+        //             sh "git config --global user.name 'jenkins-server'"
+        //             sh "git add ."
+        //             sh "git commit -am 'ci:jenkins-server'"
+        //             sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
+        //         }
+        //     }
+        // }
     }
-}
+}[]
