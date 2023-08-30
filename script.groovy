@@ -33,7 +33,7 @@ def incrementVersion(){
 
 
 def deploy(){
-    echo "Deploying app...."
+    echo "Deploying app....."
     def ui = "golebu2023/image-registry:bc_wildfire_ui-${tagName}"
     def web = "golebu2023/image-registry:bc_wildfire_web-${tagName}"
     def pull_ui = "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 docker pull ${ui}"
