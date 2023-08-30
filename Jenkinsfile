@@ -11,19 +11,11 @@ pipeline{
         WORKSPACE = pwd()
     }
     stages{
-        stage("init"){
-            steps{
-                script{
-                    gv = load 'script.groovy'
-                }
-            }
-        }
-
         stage("test"){
             steps{
                 script{
                     echo "Testing..."
-                    gv.testing()
+                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
                 }
             }
         }
@@ -32,7 +24,7 @@ pipeline{
             steps{
                 script{
                     echo "Building..."
-                    gv.buildPush()
+                    
 
                 }
             }
