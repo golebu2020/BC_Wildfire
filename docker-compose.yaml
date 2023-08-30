@@ -19,7 +19,7 @@ services:
       - db
 
   frontend:
-    image: "bc_wildfire_ui:$TAG"
+    image: "bc_wildfire_ui:${TAG}"
     build:
       context: ./ui
       dockerfile: Dockerfile
