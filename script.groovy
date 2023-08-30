@@ -36,7 +36,7 @@ def deploy(){
     echo "Deploying app...."
     def dockerCMD = "docker pull redis"
     sshagent(['app-server-ssh-token']) {
-        ss "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 ${dockerCMD}"
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 ${dockerCMD}"
     }
 }
 
