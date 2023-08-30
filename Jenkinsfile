@@ -27,8 +27,8 @@ pipeline{
                     echo "Building..."
                     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-
-                        def file = readFile("${WORKSPACE}/version.xml")
+                        
+                        def file = readFile("${env.WORKSPACE}/version.xml")
                         def matcher = file.split(",")
                         major = matcher[0]
                         minor = matcher[1]
@@ -49,7 +49,7 @@ pipeline{
             steps{
                 script{
                     echo "incrementing..."
-                    def file = readFile("${WORKSPACE}/version.xml")
+                    def file = readFile("${env.WORKSPACE}/version.xml")
                     def matcher = file.split(",")
                     major = matcher[0]
                     minor = matcher[1]
@@ -57,7 +57,7 @@ pipeline{
                     patch = patch as Integer
                     patch++
 
-                    writeFile(file: "${WORKSPACE}/version.xml", text: "${major},${minor},${patch}", encoding: "UTF-8")
+                    writeFile(file: "${env.WORKSPACE}/version.xml", text: "${major},${minor},${patch}", encoding: "UTF-8")
                 }
             }
         }
