@@ -1,6 +1,8 @@
 #! /usr/bin.env bash
 
-def major, minor, patch
+def major
+def minor
+def patch
 def gv
 
 pipeline{
