@@ -66,7 +66,7 @@ pipeline{
         stage("update commit"){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId:'gitlab-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
+                    withCredentials([usernamePassword(credentialsId:'github-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                         echo "Updating commit version"
                         sh "git config --global user.email 'jenkins-server@gmail.com'"
                         sh "git config --global user.name 'jenkins-server'"
