@@ -21,8 +21,8 @@ services:
   frontend:
     image: "bc_wildfire_ui:${TAG}"
     build:
-      context: .
-      dockerfile: ./ui/Dockerfile
+      context: ./ui
+      dockerfile: Dockerfile
     ports:
       - 8081:80
     volumes:
