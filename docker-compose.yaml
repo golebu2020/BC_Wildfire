@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   web:
-    image: "bc_wildfire_web:${WEB_TAG}"
+    image: "bc_wildfire_web:${TAG}"
     build:
       context: .
       dockerfile: ./backend/Dockerfile

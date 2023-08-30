@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export TAG=$1
-docker-compose build --build-arg WEB_TAG=${TAG}
+docker-compose build --build-arg TAG=${TAG}
 # docker-compose build
 echo "The value of tag is ${TAG}"
 # docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} 
