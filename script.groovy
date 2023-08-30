@@ -43,8 +43,7 @@ def deploy(){
     def deployTag = "${major}.${minor}.${patch}"
 
     sshagent(['app-server-ssh-token']) {
-        sh "scp docker-compose-prod-tag.yaml ocker-compose-prod-tag.sh .env.prod ubuntu@3.99.131.248:/home/ubuntu"
-
+        sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod ubuntu@3.99.131.248:/home/ubuntu"
     }
 }
 
