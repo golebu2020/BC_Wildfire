@@ -40,7 +40,7 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                    echo "incrementing..."
+                    echo "incrementing...."
                     def file = readFile("${WORKSPACE}/version.xml")
                     def matcher = file.split(",")
                     major = matcher[0]
