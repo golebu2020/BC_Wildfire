@@ -72,8 +72,8 @@ pipeline{
                         sh "git config --global user.name 'jenkins-server'"
                         sh "git add ."
                         sh "git commit -am 'ci:jenkins-server'"
-                        sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
-                        sh "git push origin jenkins-pipeline"
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
+                        sh "git push origin HEAD:jenkins-pipeline"
                     }
                     
                 }
