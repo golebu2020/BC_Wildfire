@@ -17,7 +17,7 @@ pipeline{
             steps{
                 script{
                     echo "Teesting and building..."
-                    def tag = "${major}.${minor}.${patch}"
+                    tag = "${major}.${minor}.${patch}"
                     sh "bash ./test.sh ${tag}"
                 }
             }
