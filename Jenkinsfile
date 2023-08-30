@@ -36,18 +36,23 @@ pipeline{
             steps{
                 script{
                     echo "incrementing..."
-                    gv.incrementVersion()
+    
                 }
             }
-            
         }
-
         
-
         stage("deploy"){
             steps{
                 script{
-                    echo "Deploying..."
+                    echo "Deploying app..."
+                }
+            }
+        }
+
+        stage("update commit"){
+            steps{
+                script{
+                    echo "Updating commit version"
                 }
             }
         }
