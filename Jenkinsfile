@@ -10,8 +10,6 @@ pipeline{
     agent any
     environment{
         WORKSPACE = pwd()
-        PAT = credentials('github-personal-access').password // Use the PAT value here
-        
     }
     stages{
         stage("test and building"){
@@ -67,14 +65,14 @@ pipeline{
         stage("update commit"){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId:'github-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
+                    withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                         echo "Updating commit version"
                         sh "git config --global user.email 'jenkins-server@gmail.com'"
                         sh "git config --global user.name 'jenkins-server'"
 
                         sh "git add ."
                         sh "git commit -am 'ci:jenkins-server'"
-                        sh "git remote set-url origin https://${USER}:${PAT}@github.com:golebu2020/BC_Wildfire.git"
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
                         sh "git push origin HEAD:jenkins-pipeline"
                     }
                     
