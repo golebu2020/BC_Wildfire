@@ -26,6 +26,17 @@ pipeline{
             }
         }
 
+        stage("build and push"){
+            steps{
+                script{
+                    echo "Building..."
+                    gv.buildPush()
+
+                }
+            }
+            
+        }
+
         stage("increment version"){
             steps{
                 script{
@@ -36,14 +47,7 @@ pipeline{
             
         }
 
-        stage("build"){
-            steps{
-                script{
-                    echo "Building..."
-                }
-            }
-            
-        }
+        
 
         stage("deploy"){
             steps{

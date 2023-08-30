@@ -11,7 +11,11 @@ def incrementVersion(){
     major = matcher[0]
     minor = matcher[1]
     patch = matcher[2]
-    echo "The major is ${major}"
+}
+
+def buildPush(){
+    def TAG = "${major}.${minor}.${patch}"
+    sh "docker-compose build --build-arg TAG=${TAG}"
 }
 
 return this
