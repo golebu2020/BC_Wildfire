@@ -47,8 +47,10 @@ pipeline{
                     major = matcher[0]
                     minor = matcher[1]
                     patch = matcher[2]
-
-                    echo "${major}.${minor}.${patch}"
+                    patch = patch as Integer
+                    patch++
+                    
+                    writeFile(file: "${WORKSPACE}/version.xml", text: "${major}.${minor}.${patch}", encoding: "UTF-8")
                 }
             }
         }
@@ -61,17 +63,17 @@ pipeline{
             }
         }
 
-        // stage("update commit"){
-        //     steps{
-        //         script{
-        //             echo "Updating commit version"
-        //             sh "git config --global user.email 'jenkins-server@gmail.com'"
-        //             sh "git config --global user.name 'jenkins-server'"
-        //             sh "git add ."
-        //             sh "git commit -am 'ci:jenkins-server'"
-        //             sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
-        //         }
-        //     }
-        // }
+        stage("update commit"){
+            steps{
+                script{
+                    echo "Updating commit version"
+                    sh "git config --global user.email 'jenkins-server@gmail.com'"
+                    sh "git config --global user.name 'jenkins-server'"
+                    sh "git add ."
+                    sh "git commit -am 'ci:jenkins-server'"
+                    sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
+                }
+            }
+        }
     }
 }
