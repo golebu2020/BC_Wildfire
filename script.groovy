@@ -34,13 +34,11 @@ def incrementVersion(){
 
 def deploy(){
     echo "Deploying app....."
-    def ui = "golebu2023/image-registry:bc_wildfire_ui-${tagName}"
-    def web = "golebu2023/image-registry:bc_wildfire_web-${tagName}"
-    def pull_ui = "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 docker pull ${ui}"
-    def pull_web = "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 docker pull ${web}"
+
+    // def ssh_login = "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248"
+
     sshagent(['app-server-ssh-token']) {
-        sh "${pull_ui}"
-        sh "${pull_web}"
+        sh "scp docker-compose-prod-tag.yaml ubuntu@3.99.131.248:/home/ubuntu"
     }
 }
 
