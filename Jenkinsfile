@@ -10,6 +10,7 @@ pipeline{
     agent any
     environment{
         WORKSPACE = pwd()
+        PAT = credentials('github-personal-access').password // Use the PAT value here
         
     }
     stages{
@@ -73,7 +74,7 @@ pipeline{
 
                         sh "git add ."
                         sh "git commit -am 'ci:jenkins-server'"
-                        sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
+                        sh "git remote set-url origin https://${USER}:${PAT}@github.com:golebu2020/BC_Wildfire.git"
                         sh "git push origin HEAD:jenkins-pipeline"
                     }
                     
