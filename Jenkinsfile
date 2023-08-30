@@ -5,6 +5,7 @@ def majorTag
 def minorTag
 def patchTag
 def file
+def TAG
 
 pipeline{
     agent any
@@ -14,15 +15,6 @@ pipeline{
         WEB_REG = 'golebu2023/image-registry:bc_wildfire_web'
     }
     stages{
-        stage("test"){
-            steps{
-                script{
-                    echo "##########################Imnplementing linting and testing for web#############################"
-                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
-                }
-            }
-        }
-
         stage("increment patch tag"){
             steps{
                 script{
@@ -34,6 +26,17 @@ pipeline{
                     
                     patchTag = patchTag as Integer
                     patchTag = patchTag + 1
+
+                    TAG = "${majorTag}.${minorTag}.${patchTag}"
+                }
+            }
+        }
+        
+        stage("test"){
+            steps{
+                script{
+                    echo "##########################Imnplementing linting and testing for web#############################"
+                    sh "bash ./test.sh ${TAG}"
                 }
             }
         }
