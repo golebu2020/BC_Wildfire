@@ -36,7 +36,7 @@ pipeline{
                 script{
                     echo "##########################Imnplementing linting and testing for web#############################"
                     TAG = "${majorTag}.${minorTag}.${patchTag}"
-                    sh "bash ./test_and_linting.sh ${TAG}"
+                    sh "bash ./linting_testing.sh ${TAG}"
                     
                 }
             }
@@ -46,7 +46,7 @@ pipeline{
             steps{
                 script{
                     echo "#########################Building Image and pushing to Container Repo################################################"
-
+                    TAG = "${majorTag}.${minorTag}.${patchTag}"
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
                         sh "bash ./build_and_push.sh ${TAG}"
