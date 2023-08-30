@@ -9,7 +9,6 @@ def file
 pipeline{
     agent any
     environment{
-        TAG="1.0.4"
         WORKSPACE=pwd()
     }
     stages{
@@ -41,22 +40,23 @@ pipeline{
             steps{
                 script{
                     // docker push golebu2023/image-registry:tagname
-                    echo "#########################Building image################################################"
-                    sh "docker-compose build"
+                    echo "#########################Building Image and pushing to Container Repo################################################"
+                    TAG = "${majorTag}.${minorTag}.${patchTag}"
 
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-                        sh """
-                            docker tag bc_wildfire_web:${TAG} golebu2023/image-registry:bc_wildfire_web-${TAG} &&
-                            docker tag bc_wildfire_ui:${TAG} golebu2023/image-registry:bc_wildfire_ui-${TAG} &&
-                            docker push golebu2023/image-registry:bc_wildfire_web-${TAG} &&
-                            docker push golebu2023/image-registry:bc_wildfire_ui-${TAG}  &&
-                            docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG} 
-                        
-                        """
-                    }
 
-                    writeFile(file: "${WORKSPACE}/version.xml", text: "${majorTag},${minorTag},${patchTag}", encoding: "UTF-8")
+                        sh """
+                            docker-compose build --build-arg TAG=${TAG} &&
+                            docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} &&
+                            docker tag bc_wildfire_ui:${TAG} ${UI_REG}-${TAG} &&
+                            docker push ${WEB_REG}-${TAG} &&
+                            docker push ${UI_REG}-${TAG} &&
+                            docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG}
+                           
+                        """
+                    }  
+                    writeFile(file: "${WORKSPACE}/version.xml", text: "${TAG}", encoding: "UTF-8")
                 }
             }
         }
