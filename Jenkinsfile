@@ -15,7 +15,7 @@ pipeline{
         stage("test and building"){
             steps{
                 script{
-                    echo "Teesting and building..."
+                    echo "Teesting and building...."
                     echo "incrementing..."
                     def file = readFile("${env.WORKSPACE}/version.xml")
                     def matcher = file.split(",")
