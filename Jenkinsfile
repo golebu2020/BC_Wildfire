@@ -28,9 +28,12 @@ pipeline{
         }
 
         stage("increment version"){
-            script{
-                echo "incrementing..."
+            steps{
+                script{
+                    echo "incrementing..."
+                }
             }
+            
         }
 
         stage("build"){
