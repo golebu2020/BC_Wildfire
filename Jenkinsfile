@@ -36,7 +36,7 @@ pipeline{
                 script{
                     echo "##########################Imnplementing linting and testing for web#############################"
                     TAG = "${majorTag}.${minorTag}.${patchTag}"
-                    sh "bash ./linting_testing.sh ${TAG}"
+                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' " 
                 }
             }
         }
@@ -48,8 +48,14 @@ pipeline{
                 
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-                        TAG = "${majorTag}.${minorTag}.${patchTag}"
-                        sh "bash ./build_push.sh ${TAG}"
+                        sh """
+                            docker-compose build --build-arg TAG=${TAG}
+                            docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} 
+                            docker tag bc_wildfire_ui:${TAG} ${UI_REG}-${TAG} 
+                            docker push ${WEB_REG}-${TAG} 
+                            docker push ${UI_REG}-${TAG} 
+                            docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG}
+                        """
                     }  
                     writeFile(file: "${WORKSPACE}/version.xml", text: "${TAG}", encoding: "UTF-8")
                 }
