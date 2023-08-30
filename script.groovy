@@ -6,8 +6,12 @@ def testing(){
 }
 
 def incrementVersion(){
-    minor = "Version incremented!"
-    echo "The latest version is ${minor}"
-
+    def versionLatest = readFile("${WORKSPACE}/version.xml")
+    matcher = versionLatest.split(",")
+    major = matcher[0]
+    minor = matcher[1]
+    patch = matcher[2]
+    echo "The major is ${major}"
 }
+
 return this
