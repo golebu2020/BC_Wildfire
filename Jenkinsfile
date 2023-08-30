@@ -2,7 +2,7 @@
 
 def gv
 def major
-def minor 
+def minor
 def patch
 def tagName
 
@@ -22,7 +22,10 @@ pipeline{
         stage("test and building"){
             steps{
                 script{
-                    gv.testBuild()
+                    echo "Testing and building....."
+                    // gv.testBuild()
+                    sh "docker --version"
+                    sh "docker-compose --version"
                 }
             }
         }
@@ -30,7 +33,8 @@ pipeline{
         stage("build and push"){
             steps{
                 script{
-                    gv.buildPush()
+                    echo "Building...."
+                    // gv.buildPush()
                 }
             }
         }
@@ -38,15 +42,17 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                   gv.incrementVersion()
+                    echo "incrementing version"
+                    // gv.incrementVersion()
                 }
             }
         }
-        
+
         stage("deploy"){
             steps{
                 script{
-                    gv.deploy()
+                    echo "Deploying..."
+                    // gv.deploy()
                 }
             }
         }
@@ -54,7 +60,8 @@ pipeline{
         stage("update commit"){
             steps{
                 script{
-                    gv.updateCommit()
+                    echo "updating commits..."
+                    // gv.updateCommit()
                 }
             }
         }

@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 def testBuild(){
-    echo "Teesting and building....."
+
     echo "incrementing..."
     def file = readFile("${env.WORKSPACE}/version.xml")
     def matcher = file.split(",")
@@ -14,7 +14,7 @@ def testBuild(){
 
 
 def buildPush(){
-    echo "Building...."
+
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
         sh "docker tag bc_wildfire_web:${tagName} golebu2023/image-registry:bc_wildfire_web-${tagName}"
