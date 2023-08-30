@@ -23,9 +23,7 @@ pipeline{
             steps{
                 script{
                     echo "Testing and building....."
-                    // gv.testBuild()
-                    sh "docker --version"
-                    sh "docker-compose --version"
+                    gv.testBuild()
                 }
             }
         }
