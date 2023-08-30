@@ -22,7 +22,6 @@ pipeline{
                     major = matcher[0]
                     minor = matcher[1]
                     patch = matcher[2]
-
                     tagName = "${major}.${minor}.${patch}"
                     sh "bash ./test.sh ${tagName}"
                 }
@@ -35,7 +34,6 @@ pipeline{
                     echo "Building...."
                     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-
                         sh "docker tag bc_wildfire_web:${tagName} golebu2023/image-registry:bc_wildfire_web-${tagName}"
                         sh "docker tag bc_wildfire_ui:${tagName} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
                         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
@@ -48,10 +46,8 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                    
                     patch = patch as Integer
                     patch++
-
                     writeFile(file: "${env.WORKSPACE}/version.xml", text: "${major},${minor},${patch}", encoding: "UTF-8")
                 }
             }
@@ -60,7 +56,7 @@ pipeline{
         stage("deploy"){
             steps{
                 script{
-                    echo "Deploying app..."
+                    echo "Deploying app...."
                 }
             }
         }
