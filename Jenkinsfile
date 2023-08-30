@@ -31,6 +31,8 @@ pipeline{
                         // docker push golebu2023/image-registry:tagname
                         sh "docker tag bc_wildfire_web:${tag} golebu2023/image-registry:bc_wildfire_web-${tag}"
                         sh "docker tag bc_wildfire_ui:${tag} golebu2023/image-registry:bc_wildfire_ui-${tag}"
+                        sh "docker push golebu2023/image-registry:bc_wildfire_web-${tag}"
+                        sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tag}"
                     }
                 }
             }
