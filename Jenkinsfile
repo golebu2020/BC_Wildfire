@@ -32,10 +32,10 @@ pipeline{
         stage("build and push"){
             steps{
                 script{
-                    echo "Building..."
+                    echo "Building...."
                     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-                        
+
                         sh "docker tag bc_wildfire_web:${tagName} golebu2023/image-registry:bc_wildfire_web-${tagName}"
                         sh "docker tag bc_wildfire_ui:${tagName} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
                         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
