@@ -34,8 +34,9 @@ def incrementVersion(){
 
 def deploy(){
     echo "Deploying app...."
+    def dockerCMD = "docker pull redis"
     sshagent(['app-server-ssh-token']) {
-        sh "docker pull redis"
+        ss "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 ${dockerCMD}"
     }
 }
 
