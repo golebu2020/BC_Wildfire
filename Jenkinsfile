@@ -15,7 +15,8 @@ pipeline{
             steps{
                 script{
                     echo "Testing..."
-                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' --build-arg TAG=${major}.${minor}.${patch}"
+                    def version = "${major}.${minor}.${patch}"
+                    sh "bash ./test.sh ${version}"
                 }
             }
         }
