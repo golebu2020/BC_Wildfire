@@ -48,37 +48,36 @@ pipeline{
                     patch = matcher[2]
                     patch = patch as Integer
                     patch++
-                    echo "${patch}"
 
-                    // writeFile(file: "${WORKSPACE}/version.xml", text: "${major}.${minor}.${patch}", encoding: "UTF-8")
+                    writeFile(file: "${WORKSPACE}/version.xml", text: "${major},${minor},${patch}", encoding: "UTF-8")
                 }
             }
         }
         
-        // stage("deploy"){
-        //     steps{
-        //         script{
-        //             echo "Deploying app...."
-        //         }
-        //     }
-        // }
+        stage("deploy"){
+            steps{
+                script{
+                    echo "Deploying app..."
+                }
+            }
+        }
 
-        // stage("update commit"){
-        //     steps{
-        //         script{
-        //             withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]){
-        //                 echo "Updating commit version"
-        //                 sh "git config --global user.email 'jenkins-server@gmail.com'"
-        //                 sh "git config --global user.name 'jenkins-server'"
+        stage("update commit"){
+            steps{
+                script{
+                    withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]){
+                        echo "Updating commit version"
+                        sh "git config --global user.email 'jenkins-server@gmail.com'"
+                        sh "git config --global user.name 'jenkins-server'"
 
-        //                 sh "git add ."
-        //                 sh "git commit -am 'ci:jenkins-server'"
-        //                 sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
-        //                 sh "git push origin HEAD:jenkins-pipeline"
-        //             }
+                        sh "git add ."
+                        sh "git commit -am 'ci:jenkins-server'"
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
+                        sh "git push origin HEAD:jenkins-pipeline"
+                    }
                     
-        //         }
-        //     }
-        // }
+                }
+            }
+        }
     }
 }
