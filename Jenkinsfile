@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 def gv
-def major = 1
-def minor = 0
-def patch = 0
+def major
+def minor 
+def patch
 def tagName
 
 pipeline{
@@ -16,8 +16,15 @@ pipeline{
             steps{
                 script{
                     echo "Teesting and building..."
+                    echo "incrementing..."
+                    def file = readFile("${env.WORKSPACE}/version.xml")
+                    def matcher = file.split(",")
+                    major = matcher[0]
+                    minor = matcher[1]
+                    patch = matcher[2]
+
                     tagName = "${major}.${minor}.${patch}"
-                    sh "bash ./test.sh ${tag}"
+                    sh "bash ./test.sh ${tagName}"
                 }
             }
         }
@@ -28,17 +35,9 @@ pipeline{
                     echo "Building..."
                     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-
-                        def file = readFile("${env.WORKSPACE}/version.xml")
-                        def matcher = file.split(",")
-                        major = matcher[0]
-                        minor = matcher[1]
-                        patch = matcher[2]
-
-                        tagName = "${major}.${minor}.${patch}"
-
-                        sh "docker tag bc_wildfire_web:${tag} golebu2023/image-registry:bc_wildfire_web-${tagName}"
-                        sh "docker tag bc_wildfire_ui:${tag} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
+                        
+                        sh "docker tag bc_wildfire_web:${tagName} golebu2023/image-registry:bc_wildfire_web-${tagName}"
+                        sh "docker tag bc_wildfire_ui:${tagName} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
                         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
                         sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tagName}"
                     }
@@ -49,12 +48,7 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                    echo "incrementing..."
-                    def file = readFile("${env.WORKSPACE}/version.xml")
-                    def matcher = file.split(",")
-                    major = matcher[0]
-                    minor = matcher[1]
-                    patch = matcher[2]
+                    
                     patch = patch as Integer
                     patch++
 
