@@ -1,4 +1,4 @@
-#! /usr/bin.env bash
+#!/usr/bin/env bash
 
 def gv
 def major = 1
@@ -27,7 +27,7 @@ pipeline{
                     echo "Building..."
                     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-                        
+
                         def file = readFile("${env.WORKSPACE}/version.xml")
                         def matcher = file.split(",")
                         major = matcher[0]
