@@ -1,9 +1,9 @@
 #! /usr/bin.env bash
 
 def gv
-def major = 1
-def minor = 0
-def patch = 0
+def major
+def minor
+def patch
 def tag
 
 pipeline{
@@ -16,6 +16,13 @@ pipeline{
             steps{
                 script{
                     echo "Teesting and building..."
+                    echo "incrementing...."
+                    def file = readFile("${WORKSPACE}/version.xml")
+                    def matcher = file.split(",")
+                    major = matcher[0]
+                    minor = matcher[1]
+                    patch = matcher[2]
+
                     tag = "${major}.${minor}.${patch}"
                     sh "bash ./test.sh ${tag}"
                 }
@@ -40,15 +47,8 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                    echo "incrementing...."
-                    def file = readFile("${WORKSPACE}/version.xml")
-                    def matcher = file.split(",")
-                    major = matcher[0]
-                    minor = matcher[1]
-                    patch = matcher[2]
                     patch = patch as Integer
                     patch++
-
                     writeFile(file: "${WORKSPACE}/version.xml", text: "${major},${minor},${patch}", encoding: "UTF-8")
                 }
             }
