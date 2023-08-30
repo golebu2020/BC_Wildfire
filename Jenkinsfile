@@ -4,6 +4,7 @@ def gv
 def major = 1
 def minor = 0
 def patch = 0
+def tagName
 
 pipeline{
     agent any
@@ -15,7 +16,7 @@ pipeline{
             steps{
                 script{
                     echo "Teesting and building..."
-                    def tag = "${major}.${minor}.${patch}"
+                    tagName = "${major}.${minor}.${patch}"
                     sh "bash ./test.sh ${tag}"
                 }
             }
@@ -34,12 +35,12 @@ pipeline{
                         minor = matcher[1]
                         patch = matcher[2]
 
-                        def newTag = "${major}.${minor}.${patch}"
+                        tagName = "${major}.${minor}.${patch}"
 
-                        sh "docker tag bc_wildfire_web:${tag} golebu2023/image-registry:bc_wildfire_web-${newTag}"
-                        sh "docker tag bc_wildfire_ui:${tag} golebu2023/image-registry:bc_wildfire_ui-${newTag}"
-                        sh "docker push golebu2023/image-registry:bc_wildfire_web-${newTag}"
-                        sh "docker push golebu2023/image-registry:bc_wildfire_ui-${newTag}"
+                        sh "docker tag bc_wildfire_web:${tag} golebu2023/image-registry:bc_wildfire_web-${tagName}"
+                        sh "docker tag bc_wildfire_ui:${tag} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
+                        sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
+                        sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tagName}"
                     }
                 }
             }
