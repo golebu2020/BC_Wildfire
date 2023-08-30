@@ -46,15 +46,16 @@ pipeline{
             steps{
                 script{
                     echo "#########################Building Image and pushing to Container Repo################################################"
-                
+                    TAG = "${majorTag}.${minorTag}.${patchTag}"
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
+                        
                         sh """
-                            docker-compose build --build-arg TAG=${TAG}
-                            docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} 
-                            docker tag bc_wildfire_ui:${TAG} ${UI_REG}-${TAG} 
-                            docker push ${WEB_REG}-${TAG} 
-                            docker push ${UI_REG}-${TAG} 
+                            docker-compose build --build-arg TAG=${TAG} &&
+                            docker tag bc_wildfire_web:${TAG} ${WEB_REG}-${TAG} &&
+                            docker tag bc_wildfire_ui:${TAG} ${UI_REG}-${TAG} &&
+                            docker push ${WEB_REG}-${TAG} &&
+                            docker push ${UI_REG}-${TAG} &&
                             docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG}
                         """
                     }  
