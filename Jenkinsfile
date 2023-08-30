@@ -51,7 +51,7 @@ pipeline{
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
 
                         sh """
-                            docker-compose build --build-arg TAG=${TAG} &&
+                            docker-compose build --build-arg TAG=${TAG} 
                            
                         """
                     }  
