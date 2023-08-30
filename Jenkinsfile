@@ -1,16 +1,31 @@
 #! /usr/bin.env bash
 
+def major, minor, patch
+def gv
+
 pipeline{
     agent any
+    environment{
+        WORKSPACE = pwd()
+    }
     stages{
+        stage("init"){
+            gv = load 'script.groovy'
+        }
         stage("test"){
             steps{
                 script{
                     echo "Testing..."
-                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
+                    gv.testing()
                 }
             }
             
+        }
+
+        stage("increment version"){
+            script{
+                echo "incrementing..."
+            }
         }
 
         stage("build"){
