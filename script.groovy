@@ -1,6 +1,5 @@
 #!/usr/bin/env groovy
 
-/* groovylint-disable-next-line MethodReturnTypeRequired, NoDef, MethodReturnTypeRequired, FactoryMethodName*/
 def testBuild(){
     echo "Teesting and building....."
     echo "incrementing..."
@@ -13,7 +12,7 @@ def testBuild(){
     sh "bash ./test.sh ${tagName}"
 }
 
-/* groovylint-disable-next-line MethodReturnTypeRequired, NoDef, MethodReturnTypeRequired, FactoryMethodName*/
+
 def buildPush(){
     echo "Building...."
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
@@ -25,19 +24,19 @@ def buildPush(){
     }
 }
 
-/* groovylint-disable-next-line MethodReturnTypeRequired, NoDef, MethodReturnTypeRequired, FactoryMethodName*/
+
 def incrementVersion(){
     patch = patch as Integer
     patch++
     writeFile(file: "${env.WORKSPACE}/version.xml", text: "${major},${minor},${patch}", encoding: "UTF-8")
 }
 
-/* groovylint-disable-next-line MethodReturnTypeRequired, NoDef, MethodReturnTypeRequired, FactoryMethodName*/
+
 def deploy(){
     echo "Deploying app...."
 }
 
-/* groovylint-disable-next-line MethodReturnTypeRequired, NoDef, MethodReturnTypeRequired, FactoryMethodName*/
+
 def updateCommit(){
     withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
         echo "Updating commit version"
@@ -50,5 +49,5 @@ def updateCommit(){
     }
 }
 
-/* groovylint-disable-next-line CompileStatic */
+
 return this
