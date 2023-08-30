@@ -15,8 +15,8 @@ pipeline{
                     gv = load 'script.groovy'
                 }
             }
-           
         }
+
         stage("test"){
             steps{
                 script{
@@ -24,13 +24,13 @@ pipeline{
                     gv.testing()
                 }
             }
-            
         }
 
         stage("increment version"){
             steps{
                 script{
                     echo "incrementing..."
+                    gv.incrementVersion()
                 }
             }
             
@@ -51,7 +51,6 @@ pipeline{
                     echo "Deploying..."
                 }
             }
-            
         }
     }
 }

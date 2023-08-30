@@ -6,6 +6,8 @@ def testing(){
 }
 
 def incrementVersion(){
+    major = "Version incremented!"
+    echo "The latest version is ${major}"
 
 }
 return this
