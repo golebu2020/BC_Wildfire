@@ -49,7 +49,7 @@ pipeline{
                     TAG = "${majorTag}.${minorTag}.${patchTag}"
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-                        sh "bash ./build_and_push.sh ${TAG}"
+                        sh "bash ./build_and_push.sh ${TAG} ${WEB_REG} ${UI_REG}"
                     }  
                     writeFile(file: "${WORKSPACE}/version.xml", text: "${TAG}", encoding: "UTF-8")
                 }
