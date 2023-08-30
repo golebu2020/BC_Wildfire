@@ -50,11 +50,8 @@ pipeline{
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
 
-                        sh """
-                            docker-compose build --build-arg TAG=${TAG} &&
-                       
-                           
-                        """
+                        sh "docker-compose build --build-arg TAG=${TAG}"
+                        
                     }  
                     writeFile(file: "${WORKSPACE}/version.xml", text: "${TAG}", encoding: "UTF-8")
                 }
