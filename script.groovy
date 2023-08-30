@@ -34,6 +34,9 @@ def incrementVersion(){
 
 def deploy(){
     echo "Deploying app...."
+    sshagent(['app-server-ssh-token']) {
+        sh "docker pull redis"
+    }
 }
 
 
