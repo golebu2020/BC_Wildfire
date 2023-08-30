@@ -10,6 +10,8 @@ pipeline{
     agent any
     environment{
         WORKSPACE=pwd()
+        UI_REG = 'golebu2023/image-registry:bc_wildfire_ui'
+        WEB_REG = 'golebu2023/image-registry:bc_wildfire_web'
     }
     stages{
         stage("test"){
