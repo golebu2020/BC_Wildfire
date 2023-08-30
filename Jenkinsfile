@@ -28,7 +28,6 @@ pipeline{
                 script{
                     echo "Building..."
                     withCredentials([usernamePassword(credentialsId:'github-credentials', usernameVariable: 'USR', passwordVariable: 'PASS')]){
-                        // docker push golebu2023/image-registry:tagname
                         sh "docker tag bc_wildfire_web:${tag} golebu2023/image-registry:bc_wildfire_web-${tag}"
                         sh "docker tag bc_wildfire_ui:${tag} golebu2023/image-registry:bc_wildfire_ui-${tag}"
                         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tag}"
@@ -42,6 +41,13 @@ pipeline{
             steps{
                 script{
                     echo "incrementing..."
+                    def file = readFile("${WORKSPACE}/version.xml")
+                    def matcher = file.split(",")
+                    major = matcher[0]
+                    minor = matcher[1]
+                    patch = matcher[2]
+
+                    echo "${major}.${minor}.${patch}"
                 }
             }
         }
