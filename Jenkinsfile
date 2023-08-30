@@ -49,7 +49,7 @@ pipeline{
                     patch = matcher[2]
                     patch = patch as Integer
                     patch++
-                    
+
                     writeFile(file: "${WORKSPACE}/version.xml", text: "${major}.${minor}.${patch}", encoding: "UTF-8")
                 }
             }
@@ -66,12 +66,15 @@ pipeline{
         stage("update commit"){
             steps{
                 script{
-                    echo "Updating commit version"
-                    sh "git config --global user.email 'jenkins-server@gmail.com'"
-                    sh "git config --global user.name 'jenkins-server'"
-                    sh "git add ."
-                    sh "git commit -am 'ci:jenkins-server'"
-                    sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
+                    withCredentials([usernamePassword(credentialsId:'gitlab-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
+                        echo "Updating commit version"
+                        sh "git config --global user.email 'jenkins-server@gmail.com'"
+                        sh "git config --global user.name 'jenkins-server'"
+                        sh "git add ."
+                        sh "git commit -am 'ci:jenkins-server'"
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com:golebu2020/BC_Wildfire.git"
+                    }
+                    
                 }
             }
         }
