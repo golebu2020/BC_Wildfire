@@ -2,7 +2,7 @@
 
 /* groovylint-disable-next-line MethodReturnTypeRequired */
 def testing(){
-    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test --build-arg TAG=1.0.0' "
+    echo "hey"
 }
 
 def incrementVersion(){
@@ -16,6 +16,7 @@ def incrementVersion(){
 def buildPush(){
     def TAG = "${major}.${minor}.${patch}"
     sh "docker-compose build --build-arg TAG=${TAG}"
+    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test --build-arg TAG=1.0.0' "
 }
 
 return this
