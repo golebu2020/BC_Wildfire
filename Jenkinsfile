@@ -1,7 +1,7 @@
 #! /usr/bin.env bash
 
 def gv
-def major = 0
+def major = 1
 def minor = 0
 def patch = 0
 
