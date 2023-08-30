@@ -34,7 +34,9 @@ def incrementVersion(){
 
 def deploy(){
     echo "Deploying app...."
-    def dockerCMD = "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 docker pull golebu2023/image-registry:bc_wildfire_web-${tagName}"
+    def ui = "golebu2023/image-registry:bc_wildfire_ui-${tagName}"
+    def web = "golebu2023/image-registry:bc_wildfire_web-${tagName}"
+    def dockerCMD = "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 docker pull ${ui} ${web}"
     sshagent(['app-server-ssh-token']) {
         sh "${dockerCMD}"
     }
