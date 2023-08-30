@@ -5,20 +5,26 @@ def majorTag
 def minorTag
 def patchTag
 def file
-def TAG
 
 pipeline{
     agent any
     environment{
+        TAG="1.0.4"
         WORKSPACE=pwd()
-        UI_REG = 'golebu2023/image-registry:bc_wildfire_ui'
-        WEB_REG = 'golebu2023/image-registry:bc_wildfire_web'
     }
     stages{
+        stage("test"){
+            steps{
+                script{
+                    echo "##########################Imnplementing linting and testing for web#############################"
+                    sh " docker-compose run web sh -c 'python manage.py wait_for_db && python manage.py test' "
+                }
+            }
+        }
+
         stage("increment patch tag"){
             steps{
                 script{
-                    echo "##########################Imcrementing Patch Tag#############################"
                     file = readFile("${WORKSPACE}/version.xml")
                     def matcher = file.split(",")
                     majorTag = matcher[0]
@@ -26,18 +32,7 @@ pipeline{
                     patchTag = matcher[2]
                     
                     patchTag = patchTag as Integer
-                    patchTag++
-                }
-            }
-        }
-
-        stage("test"){
-            steps{
-                script{
-                    echo "##########################Imnplementing linting and testing for web#############################"
-                    TAG = "${majorTag}.${minorTag}.${patchTag}"
-                    sh "bash ./linting_testing.sh ${TAG}"
-                    
+                    patchTag = patchTag + 1
                 }
             }
         }
@@ -45,13 +40,23 @@ pipeline{
         stage("build and push"){
             steps{
                 script{
-                    echo "#########################Building Image and pushing to Container Repo################################################"
-                    TAG = "${majorTag}.${minorTag}.${patchTag}"
+                    // docker push golebu2023/image-registry:tagname
+                    echo "#########################Building image################################################"
+                    sh "docker-compose build"
+
                     withCredentials([usernamePassword('credentialsId':'dockerhub-credentials', usernameVariable:'USER', passwordVariable: 'PASS')]){
                         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-                        sh "bash ./build_and_push.sh ${TAG} ${WEB_REG} ${UI_REG}"
-                    }  
-                    writeFile(file: "${WORKSPACE}/version.xml", text: "${TAG}", encoding: "UTF-8")
+                        sh """
+                            docker tag bc_wildfire_web:${TAG} golebu2023/image-registry:bc_wildfire_web-${TAG} &&
+                            docker tag bc_wildfire_ui:${TAG} golebu2023/image-registry:bc_wildfire_ui-${TAG} &&
+                            docker push golebu2023/image-registry:bc_wildfire_web-${TAG} &&
+                            docker push golebu2023/image-registry:bc_wildfire_ui-${TAG}  &&
+                            docker rmi bc_wildfire_web:${TAG} bc_wildfire_ui:${TAG} 
+                        
+                        """
+                    }
+
+                    writeFile(file: "${WORKSPACE}/version.xml", text: "${majorTag},${minorTag},${patchTag}", encoding: "UTF-8")
                 }
             }
         }
@@ -63,22 +68,5 @@ pipeline{
                 }
             }
         }
-
-        // stage("push update commit"){
-        //     steps{
-        //         script{
-        //             echo "##########################Pushing the updated commit to github...#############################"
-        //             withCredentials([usernamePassord('credentialsId': 'github-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
-        //                 sh """
-        //                     git config --global user.email 'jenkins-server@gmail.com' &&
-        //                     git config --global user.name 'jenkins-server' &&
-        //                     git commit -am 'jenkins push commit update' &&
-        //                     git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git &&
-        //                     git push origin HEAD:jenkins-pipeline 
-        //                 """
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
