@@ -28,7 +28,7 @@ pipeline{
                 script{
                     echo "Building..."
                     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
-                        sh "echo ${PASS} | docker logiin --username ${USER} --password-stdin"
+                        sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
                         sh "docker tag bc_wildfire_web:${tag} golebu2023/image-registry:bc_wildfire_web-${tag}"
                         sh "docker tag bc_wildfire_ui:${tag} golebu2023/image-registry:bc_wildfire_ui-${tag}"
                         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tag}"
