@@ -1,14 +1,14 @@
 #! /usr/bin.env bash
 
-def major
-def minor
-def patch
 def gv
 
 pipeline{
     agent any
     environment{
         WORKSPACE = pwd()
+        major = 0
+        minor = 0
+        patch = 0
     }
     stages{
         stage("init"){
