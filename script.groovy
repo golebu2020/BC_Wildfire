@@ -35,10 +35,16 @@ def incrementVersion(){
 def deploy(){
     echo "Deploying app....."
 
-    // def ssh_login = "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248"
+    def file = readFile("${env.WORKSPACE}/version.xml")
+    def matcher = file.split(",")
+    major = matcher[0]
+    minor = matcher[1]
+    patch = matcher[2]
+    def deployTag = "${major}.${minor}.${patch}"
 
     sshagent(['app-server-ssh-token']) {
-        sh "scp docker-compose-prod-tag.yaml ubuntu@3.99.131.248:/home/ubuntu"
+        sh "scp docker-compose-prod-tag.yaml ocker-compose-prod-tag.sh .env.prod ubuntu@3.99.131.248:/home/ubuntu"
+
     }
 }
 

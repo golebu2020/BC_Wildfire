@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   web:
-    image: "golebu2023/image-registry:bc_wildfire_web-${tagName}"
+    image: "golebu2023/image-registry:bc_wildfire_web-${TAG}"
     ports:
       - 8000:8000
     volumes:
@@ -16,7 +16,7 @@ services:
       - db
 
   frontend:
-    image: "golebu2023/image-registry:bc_wildfire_web-${tagName}"
+    image: "golebu2023/image-registry:bc_wildfire_web-${TAG}"
     ports:
       - 8081:80
     volumes:
