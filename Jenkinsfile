@@ -12,7 +12,7 @@ pipeline{
         WORKSPACE = pwd()
     }
     stages{
-        stage("init"){
+        stage("initialize script"){
             steps{
                 script{
                     // gv = load 'script.groovy'
@@ -20,7 +20,7 @@ pipeline{
                 }
             }
         }
-        stage("test and building"){
+        stage("test"){
             steps{
                 script{
                     echo "Testing and building......"
