@@ -34,13 +34,7 @@ def incrementVersion(){
 
 def deploy(){
     echo "Deploying app......"
-
-    def file = readFile("${env.WORKSPACE}/version.xml")
-    def matcher = file.split(",")
-    major = matcher[0]
-    minor = matcher[1]
-    patch = matcher[2]
-    def deployTag = "${major}.${minor}.${patch}"
+    def deployTag = "${major}.${minor}.${patch-1}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
 
     sshagent(['app-server-ssh-token']) {
