@@ -38,7 +38,7 @@ def deploy(){
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
 
     sshagent(['production_pipeline']) {
-        sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod ubuntu@128.199.4.224:/root"
+        sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@128.199.4.224:/root"
         sh "ssh -o StrictHostKeyChecking=no root@128.199.4.224 ${runSSH}"
     }
 }
@@ -52,7 +52,7 @@ def updateCommit(){
         sh "git add ."
         sh "git commit -am 'ci:jenkins-server'"
         sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
-        sh "git push origin HEAD:jenkins-pipeline"
+        sh "git push origin HEAD:production-pipeline"
     }
 }
 
