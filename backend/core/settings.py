@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ropc*@04cbu4*59)0awml!=i@)5iue5ri!+43#b6#ahe-aotyb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['3.99.131.248']
 
 # Application definition
 
@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -56,10 +56,10 @@ MIDDLEWARE = [
     'data.middlewares.APICallCounterMiddleWare',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8081',
-    'http://127.0.0.1:8081',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:8081',
+#     'http://127.0.0.1:8081',
+# ]
 
 
 ROOT_URLCONF = 'core.urls'
