@@ -16,7 +16,7 @@ services:
       - db
 
   frontend:
-    image: "golebu2023/image-registry:bc_wildfire_web-${TAG}"
+    image: "golebu2023/image-registry:bc_wildfire_ui-${TAG}"
     ports:
       - 8081:80
     volumes:

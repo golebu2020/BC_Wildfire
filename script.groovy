@@ -26,15 +26,15 @@ def buildPush(){
 
 
 def incrementVersion(){
-    patch = patch as Integer
-    patch++
-    writeFile(file: "${env.WORKSPACE}/version.xml", text: "${major},${minor},${patch}", encoding: "UTF-8")
+    def patchTemp = patch as Integer
+    patchTemp++
+    writeFile(file: "${env.WORKSPACE}/version.xml", text: "${major},${minor},${patchTemp}", encoding: "UTF-8")
 }
 
 
 def deploy(){
     echo "Deploying app......"
-    def deployTag = "${major}.${minor}.${patch-1}"
+    def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
 
     sshagent(['app-server-ssh-token']) {

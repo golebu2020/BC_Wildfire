@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ropc*@04cbu4*59)0awml!=i@)5iue5ri!+43#b6#ahe-aotyb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["ec2-3-99-131-248.ca-central-1.compute.amazonaws.com"]
 
 
 # Application definition
