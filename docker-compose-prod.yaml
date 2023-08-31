@@ -3,7 +3,7 @@ services:
   web:
     image: "golebu2023/image-registry:bc_wildfire_web-${TAG}"
     ports:
-      - 8000:8000
+      - 8082:8000
     volumes:
       - web_volume:/app
     command: >
