@@ -33,7 +33,7 @@ def incrementVersion(){
 
 
 def deploy(){
-    echo "Deploying app....."
+    echo "Deploying app......"
 
     def file = readFile("${env.WORKSPACE}/version.xml")
     def matcher = file.split(",")
