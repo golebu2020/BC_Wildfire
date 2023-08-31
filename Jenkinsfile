@@ -16,7 +16,7 @@ pipeline{
             steps{
                 script{
                     echo "Initializing..."
-                    // gv = load 'script.groovy'
+                    gv = load 'script.groovy'
                     
                 }
             }
@@ -25,7 +25,7 @@ pipeline{
             steps{
                 script{
                     echo "Testing and building......"
-                    // gv.testBuild()
+                    gv.testBuild()
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline{
             steps{
                 script{
                     echo "Building...."
-                    // gv.buildPush()
+                    gv.buildPush()
                 }
             }
         }
@@ -43,7 +43,7 @@ pipeline{
             steps{
                 script{
                     echo "incrementing version"
-                    // gv.incrementVersion()
+                    gv.incrementVersion()
                 }
             }
         }
@@ -52,7 +52,7 @@ pipeline{
             steps{
                 script{
                     echo "Deploying..."
-                    // gv.deploy()
+                    gv.deploy()
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline{
             steps{
                 script{
                     echo "updating commits..."
-                    // gv.updateCommit()
+                    gv.updateCommit()
                 }
             }
         }
