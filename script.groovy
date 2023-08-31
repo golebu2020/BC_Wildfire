@@ -37,9 +37,9 @@ def deploy(){
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
 
-    sshagent(['app-server-ssh-token']) {
+    sshagent(['production_pipeline']) {
         sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod ubuntu@3.99.131.248:/home/ubuntu"
-        sh "ssh -o StrictHostKeyChecking=no ubuntu@3.99.131.248 ${runSSH}"
+        sh "ssh -o StrictHostKeyChecking=no root@128.199.4.224 ${runSSH}"
     }
 }
 
