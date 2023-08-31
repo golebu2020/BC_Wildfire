@@ -26,8 +26,7 @@ SECRET_KEY = 'django-insecure-ropc*@04cbu4*59)0awml!=i@)5iue5ri!+43#b6#ahe-aotyb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["3.99.131.248","http://3.99.131.248:8000/", "ec2-3-99-131-248.ca-central-1.compute.amazonaws.com:8080"]
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -58,8 +57,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
+    'http://localhost:8081',
+    'http://127.0.0.1:8081',
 ]
 
 
