@@ -39,7 +39,7 @@ def deploy(){
 
     sshagent(['production_pipeline']) {
 
-        sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod ubuntu@35.183.113.131:/ubuntu/home"
+        sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod ubuntu@35.183.113.131:/home/ubuntu"
         sh "ssh -o StrictHostKeyChecking=no ubuntu@35.183.113.131 ${runSSH}"
     }
 }
