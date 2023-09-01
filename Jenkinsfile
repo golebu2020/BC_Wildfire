@@ -52,7 +52,7 @@ pipeline{
             steps{
                 script{
                     echo "Deploying...."
-                    // gv.deploy()
+                    gv.deploy()
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline{
             steps{
                 script{
                     echo "updating commits..."
-                    // gv.updateCommit()
+                    gv.updateCommit()
                 }
             }
         }
