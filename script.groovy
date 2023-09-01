@@ -13,7 +13,7 @@ def testBuild(){
 }
 
 
-def buildPush(){
+def push(){
 
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
