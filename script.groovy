@@ -37,8 +37,8 @@ def deploy(){
     echo "Deploying app......"
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
-    def deleteContainers = "docker rm -vf $(docker ps -aq)"
-    def removeImages = "docker rmi -f $(docker images -aq)"
+    def deleteContainers = "docker rm -vf \$(docker ps -aq)"
+    def removeImages = "docker rmi -f \$(docker images -aq)"
 
     sshagent(['deploy-key']) {
         // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
