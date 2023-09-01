@@ -37,24 +37,23 @@ def deploy(){
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
 
-    sshagent(['production_pipeline']) {
-
+    sshagent(['61c78917-d806-4cc3-87c7-2f54ab7e2749']) {
         sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod ubuntu@35.183.113.131:/home/ubuntu"
-        sh "ssh -o StrictHostKeyChecking=no ubuntu@35.183.113.131 ${runSSH}"
+        // sh "ssh -o StrictHostKeyChecking=no ubuntu@35.183.113.131 ${runSSH}"
     }
 }
 
 
 def updateCommit(){
-    withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-        echo "Updating commit version"
-        sh "git config --global user.email 'jenkins-server@gmail.com'"
-        sh "git config --global user.name 'jenkins-server'"
-        sh "git add ."
-        sh "git commit -am 'ci:jenkins-server'"
-        sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
-        sh "git push origin HEAD:production-pipeline"
-    }
+    // withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+    //     echo "Updating commit version"
+    //     sh "git config --global user.email 'jenkins-server@gmail.com'"
+    //     sh "git config --global user.name 'jenkins-server'"
+    //     sh "git add ."
+    //     sh "git commit -am 'ci:jenkins-server'"
+    //     sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
+    //     sh "git push origin HEAD:production-pipeline"
+    // }
 }
 
 
