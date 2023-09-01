@@ -45,15 +45,15 @@ def deploy(){
 
 
 def updateCommit(){
-    // withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-    //     echo "Updating commit version"
-    //     sh "git config --global user.email 'jenkins-server@gmail.com'"
-    //     sh "git config --global user.name 'jenkins-server'"
-    //     sh "git add ."
-    //     sh "git commit -am 'ci:jenkins-server'"
-    //     sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
-    //     sh "git push origin HEAD:production-pipeline"
-    // }
+    withCredentials([usernamePassword(credentialsId:'github-personal-access', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+        echo "Updating commit version"
+        sh "git config --global user.email 'jenkins-server@gmail.com'"
+        sh "git config --global user.name 'jenkins-server'"
+        sh "git add ."
+        sh "git commit -am 'ci:jenkins-server'"
+        sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
+        sh "git push origin HEAD:production-pipeline"
+    }
 }
 
 
