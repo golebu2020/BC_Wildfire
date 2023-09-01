@@ -38,7 +38,8 @@ def deploy(){
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
 
     sshagent(['deploy-key']) {
-        sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
+        // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
+        sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root'
         sh "ssh -o StrictHostKeyChecking=no root@137.184.172.232 ${runSSH}"
     }
 }
