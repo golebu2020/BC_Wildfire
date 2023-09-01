@@ -17,10 +17,11 @@ def buildPush(){
 
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-        sh "docker tag bc_wildfire_web:${tagName} golebu2023/image-registry:bc_wildfire_web-${tagName}"
-        sh "docker tag bc_wildfire_ui:${tagName} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
-        sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
-        sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tagName}"
+        sh "docker system prune --all"
+        sh "docker tag bc_wildfire_web:${tagName} ${dockerRegistry}:bc_wildfire_web-${tagName}"
+        sh "docker tag bc_wildfire_ui:${tagName} ${dockerRegistry}:bc_wildfire_ui-${tagName}"
+        sh "docker push ${dockerRegistry}:bc_wildfire_web-${tagName}"
+        sh "docker push ${dockerRegistry}:bc_wildfire_ui-${tagName}"
     }
 }
 
@@ -36,11 +37,15 @@ def deploy(){
     echo "Deploying app......"
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
+    def deleteContainers = "docker rm -vf $(docker ps -aq)"
+    def removeImages = "docker rmi -f $(docker images -aq)"
 
     sshagent(['deploy-key']) {
         // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root'
-        sh "ssh -o StrictHostKeyChecking=no root@137.184.172.232 ${runSSH}"
+        sh "${sshing} ${runSSH}"
+        sh "${sshing} ${deleteContainers}"
+        sh "${sshing} ${removeImages}"
     }
 }
 
@@ -53,7 +58,7 @@ def updateCommit(){
         sh "git add ."
         sh "git commit -am 'ci:jenkins-server'"
         sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
-        sh "git push origin HEAD:production-pipeline"
+        sh "git push origin HEAD:production_pipeline"
     }
 }
 

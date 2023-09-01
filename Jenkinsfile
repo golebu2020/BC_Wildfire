@@ -5,6 +5,8 @@ def major
 def minor
 def patch
 def tagName
+def sshing="ssh -o StrictHostKeyChecking=no root@137.184.172.232"
+def dockerRegistry="golebu2023/image-registry"
 
 pipeline{
     agent any
@@ -16,7 +18,7 @@ pipeline{
             steps{
                 script{
                     echo "Initializing..."
-                    gv = load 'script.groovy'
+                    // gv = load 'script.groovy'
 
                 }
             }
@@ -25,7 +27,7 @@ pipeline{
             steps{
                 script{
                     echo "Testing and building......"
-                    gv.testBuild()
+                    // gv.testBuild()
                 }
             }
         }
@@ -34,7 +36,7 @@ pipeline{
             steps{
                 script{
                     echo "Building...."
-                    gv.buildPush()
+                    // gv.buildPush()
                 }
             }
         }
@@ -43,7 +45,7 @@ pipeline{
             steps{
                 script{
                     echo "incrementing version"
-                    gv.incrementVersion()
+                    // gv.incrementVersion()
                 }
             }
         }
@@ -52,7 +54,7 @@ pipeline{
             steps{
                 script{
                     echo "Deploying...."
-                    gv.deploy()
+                    // gv.deploy()
                 }
             }
         }
@@ -61,7 +63,7 @@ pipeline{
             steps{
                 script{
                     echo "updating commits..."
-                    gv.updateCommit()
+                    // gv.updateCommit()
                 }
             }
         }

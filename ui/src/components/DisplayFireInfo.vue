@@ -57,7 +57,7 @@ export default {
     },
     downloadCSV() {
       axios
-        .get("http://128.199.4.224:8082/api/wildfire/search/")
+        .get("http://137.184.172.232:8082/api/wildfire/search/")
         .then((response) => {
           this.feature_list = response.data.features;
           this.feature_list.forEach((element) => {
