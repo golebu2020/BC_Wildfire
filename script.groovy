@@ -13,6 +13,12 @@ def testBuild(){
 
     sshing="ssh -o StrictHostKeyChecking=no root@165.232.147.254"
     dockerRegistry="golebu2023/image-registry"
+
+    this.caller()
+}
+
+def caller(){
+    echo "Oyee!"
 }
 
 
@@ -25,10 +31,31 @@ def buildPush(){
         sh "docker tag bc_wildfire_ui:${tagName} ${dockerRegistry}:bc_wildfire_ui-${tagName}"
         sh "docker push ${dockerRegistry}:bc_wildfire_web-${tagName}"
         sh "docker push ${dockerRegistry}:bc_wildfire_ui-${tagName}"
-        sh "docker rmi -f \${docker images -aq}"
-        // sh "docker image prune -a -f"
-    }
-}
+        // sh "docker rmi -f \${docker images -aq}"
+        // def process = "docker images -aq".execute()
+        // process.waitFor()
+
+        // if (process.exitValue() == 0) {
+        //     def imageIds = process.text.trim()
+        //     if (imageIds) {
+        //         def removeProcess = "docker rmi -f $imageIds".execute()
+        //         removeProcess.waitFor()
+
+        //         if (removeProcess.exitValue() == 0) {
+        //             println("Successfully removed Docker images.")
+        //         } else {
+        //             println("Failed to remove Docker images.")
+        //             println(removeProcess.err.text)
+        //         }
+        //     } else {
+        //         println("No Docker images found to remove.")
+        //     }
+        // } else {
+        //     println("Failed to list Docker images.")
+        //     println(process.err.text)
+        // }
+        //     }
+        // }
 
 
 def incrementVersion(){
