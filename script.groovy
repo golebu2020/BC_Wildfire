@@ -37,11 +37,13 @@ def deploy(){
     echo "Deploying app......"
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
+    def deleteImageContainer = "docker system prune -a --force --volumes"
 
     sshagent(['deploy-key']) {
-        // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
+        sh "ssh -o StricyHostKeyChecking=no root@165.232.147.254 ${deleteImageContainer}"
         sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${runSSH}"
+
     }
 }
 
