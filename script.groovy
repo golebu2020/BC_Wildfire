@@ -22,6 +22,7 @@ def push(){
         sh "docker tag bc_wildfire_ui:${tagName} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
         sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tagName}"
+        sh "docker image prune -a -f"
     }
 }
 
