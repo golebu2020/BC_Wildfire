@@ -50,6 +50,7 @@ def deploy(){
         sh "${sshing} ${runSSH}"
         // sh "${sshing} ${deleteContainers}"
         // sh "${sshing} ${removeImages}"
+        sh "docker image prune -a -f"
     }
 }
 
