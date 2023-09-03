@@ -13,15 +13,15 @@ def testBuild(){
 }
 
 
-def push(){
+def buildPush(){
 
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
         sh "docker system prune --all"
-        sh "docker tag bc_wildfire_web:${tagName} golebu2023/image-registry:bc_wildfire_web-${tagName}"
-        sh "docker tag bc_wildfire_ui:${tagName} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
-        sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
-        sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tagName}"
+        sh "docker tag bc_wildfire_web:${tagName} ${dockerRegistry}:bc_wildfire_web-${tagName}"
+        sh "docker tag bc_wildfire_ui:${tagName} ${dockerRegistry}:bc_wildfire_ui-${tagName}"
+        sh "docker push ${dockerRegistry}:bc_wildfire_web-${tagName}"
+        sh "docker push ${dockerRegistry}:bc_wildfire_ui-${tagName}"
     }
 }
 
@@ -37,11 +37,15 @@ def deploy(){
     echo "Deploying app......"
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
+    def deleteContainers = "docker rm -vf \$(docker ps -aq)"
+    def removeImages = "docker rmi -f \$(docker images -aq)"
 
     sshagent(['deploy-key']) {
         // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
-        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${runSSH}"
+        sh "${sshing} ${runSSH}"
+        sh "${sshing} ${deleteContainers}"
+        sh "${sshing} ${removeImages}"
     }
 }
 

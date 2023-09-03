@@ -5,6 +5,8 @@ def major
 def minor
 def patch
 def tagName
+def sshing="ssh -o StrictHostKeyChecking=no root@165.232.147.254"
+def dockerRegistry="golebu2023/image-registry"
 
 pipeline{
     agent any
@@ -34,7 +36,7 @@ pipeline{
             steps{
                 script{
                     echo "Building...."
-                    gv.push()
+                    gv.buildPush()
                 }
             }
         }
