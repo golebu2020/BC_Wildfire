@@ -1,10 +1,12 @@
 version: "3.3"
 services:
   web:
-    image: "bc_wildfire_web:${TAG}"
+    # image: "bc_wildfire_web:${TAG}"
     build:
       context: .
       dockerfile: ./backend/Dockerfile
+      args:
+        - TAG=1.0.0
     ports:
       - 8082:8000
     volumes:
@@ -19,10 +21,12 @@ services:
       - db
 
   frontend:
-    image: "bc_wildfire_ui:${TAG}"
+    # image: "bc_wildfire_ui:${TAG}"
     build:
-      context: .
-      dockerfile: ./ui/Dockerfile
+      context: ./ui
+      dockerfile: Dockerfile
+      args:
+        - TAG=1.0.0
     ports:
       - 8081:80
     volumes:
