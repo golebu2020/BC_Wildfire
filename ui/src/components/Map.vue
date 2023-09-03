@@ -72,7 +72,7 @@ export default {
   methods: {
     fetchAllData() {
       axios
-        .get("http://137.184.172.232:8082/api/wildfire/search/")
+        .get("http://165.232.147.254:8082/api/wildfire/search/")
         .then((response) => {
           this.feature_list = response.data.features;
           this.feature_list.forEach((element) => {

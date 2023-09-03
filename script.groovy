@@ -41,16 +41,19 @@ def deploy(){
     echo "Deploying app......"
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
-    // def deleteContainers = "docker rm -vf \$(docker ps -aq)"
-    // def removeImages = "docker rmi -f \$(docker images -aq)"
 
     sshagent(['deploy-key']) {
         // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
         sh "${sshing} ${runSSH}"
-        // sh "${sshing} ${deleteContainers}"
-        // sh "${sshing} ${removeImages}"
         sh "docker image prune -a -f"
+
+        patch = patch as Integer
+        if (patch > 0){
+            sh "docker rmi -f ${dockerRegistry}:bc_wildfire_web-${major}.${minor}.${patch-1}"
+            sh "docker rmi -f ${dockerRegistry}:bc_wildfire_ui-${major}.${minor}.${patch-1}"
+        }
+
     }
 }
 

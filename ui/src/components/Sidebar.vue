@@ -82,7 +82,7 @@ export default {
   methods: {
     fetchAllFilters() {
       axios
-        .get("http://137.184.172.232:8082/api/wildfire/")
+        .get("http://165.232.147.254:8082/api/wildfire/")
         .then((response) => {
           this.fireCause = response.data.fire_cause;
           this.fireStatus = response.data.fire_status;
@@ -94,7 +94,7 @@ export default {
     },
 
     handleFilterClicked(query, value) {
-      this.permLink = `http://137.184.172.232:8082/api/wildfire/search/?${query}=${value}`;
+      this.permLink = `http://165.232.147.254:8082/api/wildfire/search/?${query}=${value}`;
       this.$emit("filterData", this.permLink, value, query);
     },
     downloadCSV() {
