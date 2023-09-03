@@ -54,8 +54,10 @@ def buildPush(){
         //     println("Failed to list Docker images.")
         //     println(process.err.text)
         // }
-        //     }
-        // }
+    }
+}
+
+
 
 
 def incrementVersion(){
