@@ -25,7 +25,7 @@ pipeline{
             steps{
                 script{
                     echo "Testing and building......"
-                    // gv.testBuild()
+                    gv.testBuild()
                 }
             }
         }

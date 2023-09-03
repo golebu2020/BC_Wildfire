@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 
 def testBuild(){
+
     echo "incrementing..."
     def file = readFile("${env.WORKSPACE}/version.xml")
     def matcher = file.split(",")
