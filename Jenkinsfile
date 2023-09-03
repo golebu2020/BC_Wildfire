@@ -5,8 +5,6 @@ def major
 def minor
 def patch
 def tagName
-def sshing
-def dockerRegistry
 
 pipeline{
     agent any
@@ -19,7 +17,6 @@ pipeline{
                 script{
                     echo "Initializing..."
                     gv = load 'script.groovy'
-
 
                 }
             }
@@ -37,7 +34,7 @@ pipeline{
             steps{
                 script{
                     echo "Building...."
-                    gv.buildPush()
+                    // gv.push()
                 }
             }
         }
@@ -46,7 +43,7 @@ pipeline{
             steps{
                 script{
                     echo "incrementing version"
-                    gv.incrementVersion()
+                    // gv.incrementVersion()
                 }
             }
         }
@@ -54,8 +51,8 @@ pipeline{
         stage("deploy"){
             steps{
                 script{
-                    echo "Deploying....."
-                    gv.deploy()
+                    echo "Deploying...."
+                    // gv.deploy()
                 }
             }
         }
@@ -64,7 +61,7 @@ pipeline{
             steps{
                 script{
                     echo "updating commits..."
-                    gv.updateCommit()
+                    // gv.updateCommit()
                 }
             }
         }
