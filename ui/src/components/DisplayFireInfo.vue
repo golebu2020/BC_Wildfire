@@ -102,7 +102,7 @@ export default {
 
 .btn--download {
   height: 30px;
-  background: red;
+  background: #000;
   width: 100%;
   padding: 5px 2px;
   margin-left: 5px;
