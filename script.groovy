@@ -25,7 +25,6 @@ def buildPush(){
         sh "docker tag bc_wildfire_ui:${tagName} ${dockerRegistry}:bc_wildfire_ui-${tagName}"
         sh "docker push ${dockerRegistry}:bc_wildfire_web-${tagName}"
         sh "docker push ${dockerRegistry}:bc_wildfire_ui-${tagName}"
-        sh "docker image prune -a -f"
     }
 }
 
@@ -46,15 +45,6 @@ def deploy(){
         // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
         sh "${sshing} ${runSSH}"
-
-        // patch = patch as Integer
-        // if (patch > 0){
-        //     sh "docker rmi -f ${dockerRegistry}:bc_wildfire_web-${major}.${minor}.${patch-1}"
-        //     sh "docker rmi -f ${dockerRegistry}:bc_wildfire_ui-${major}.${minor}.${patch-1}"
-        // }
-        echo "Listing the content of the containers"
-        sh "docker ps"
-
     }
 }
 
