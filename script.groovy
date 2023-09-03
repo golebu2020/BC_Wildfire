@@ -41,7 +41,7 @@ def deploy(){
 
     sshagent(['deploy-key']) {
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
-        sh "ssh -o StricyHostKeyChecking=no root@165.232.147.254 ${deleteImageContainer}"
+        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${deleteImageContainer}"
         sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${runSSH}"
 
     }
