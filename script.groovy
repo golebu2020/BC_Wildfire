@@ -13,12 +13,6 @@ def testBuild(){
 
     sshing="ssh -o StrictHostKeyChecking=no root@165.232.147.254"
     dockerRegistry="golebu2023/image-registry"
-
-    this.caller()
-}
-
-def caller(){
-    echo "Oyee!"
 }
 
 
@@ -78,7 +72,7 @@ def deploy(){
     sshagent(['deploy-key']) {
         // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
-        sh "${deleteContainers()}"
+        sh "${this.deleteContainers()}"
         sh "${sshing} ${runSSH}"
 
     }
