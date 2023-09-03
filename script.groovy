@@ -10,6 +10,9 @@ def testBuild(){
     patch = matcher[2]
     tagName = "${major}.${minor}.${patch}"
     sh "bash ./test.sh ${tagName}"
+
+    sshing="ssh -o StrictHostKeyChecking=no root@165.232.147.254"
+    dockerRegistry="golebu2023/image-registry"
 }
 
 

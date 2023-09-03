@@ -5,8 +5,8 @@ def major
 def minor
 def patch
 def tagName
-def sshing="ssh -o StrictHostKeyChecking=no root@165.232.147.254"
-def dockerRegistry="golebu2023/image-registry"
+def sshing
+def dockerRegistry
 
 pipeline{
     agent any
@@ -19,6 +19,7 @@ pipeline{
                 script{
                     echo "Initializing..."
                     gv = load 'script.groovy'
+
 
                 }
             }
