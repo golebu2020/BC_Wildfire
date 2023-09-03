@@ -17,11 +17,12 @@ def buildPush(){
 
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
-        sh "docker system prune --all --yes"
+        sh "docker image prune -a -force"
         sh "docker tag bc_wildfire_web:${tagName} ${dockerRegistry}:bc_wildfire_web-${tagName}"
         sh "docker tag bc_wildfire_ui:${tagName} ${dockerRegistry}:bc_wildfire_ui-${tagName}"
         sh "docker push ${dockerRegistry}:bc_wildfire_web-${tagName}"
         sh "docker push ${dockerRegistry}:bc_wildfire_ui-${tagName}"
+        sh "docker rmi -f \${docker images -aq}"
     }
 }
 
