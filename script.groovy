@@ -40,8 +40,8 @@ def deploy(){
 
     sshagent(['deploy-key']) {
         // sh "scp docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root"
-        sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@137.184.172.232:/root'
-        sh "ssh -o StrictHostKeyChecking=no root@137.184.172.232 ${runSSH}"
+        sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
+        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${runSSH}"
     }
 }
 
@@ -54,7 +54,7 @@ def updateCommit(){
         sh "git add ."
         sh "git commit -am 'ci:jenkins-server'"
         sh "git remote set-url origin https://${USER}:${PASS}@github.com/golebu2020/BC_Wildfire.git"
-        sh "git push origin HEAD:production-pipeline"
+        sh "git push origin HEAD:production_pipeline"
     }
 }
 
