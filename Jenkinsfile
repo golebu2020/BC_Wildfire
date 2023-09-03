@@ -34,7 +34,7 @@ pipeline{
             steps{
                 script{
                     echo "Building...."
-                    // gv.push()
+                    gv.push()
                 }
             }
         }
@@ -43,7 +43,7 @@ pipeline{
             steps{
                 script{
                     echo "incrementing version"
-                    // gv.incrementVersion()
+                    gv.incrementVersion()
                 }
             }
         }
@@ -52,7 +52,7 @@ pipeline{
             steps{
                 script{
                     echo "Deploying...."
-                    // gv.deploy()
+                    gv.deploy()
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline{
             steps{
                 script{
                     echo "updating commits..."
-                    // gv.updateCommit()
+                    gv.updateCommit()
                 }
             }
         }
