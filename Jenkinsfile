@@ -14,7 +14,7 @@ pipeline{
         stage("initialize script"){
             steps{
                 script{
-                    echo "Initializing..."
+                    echo "Initializing...."
                     gv = load 'script.groovy'
                 }
             }
