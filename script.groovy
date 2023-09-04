@@ -23,6 +23,7 @@ def push(){
         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
         sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tagName}"
         sh "docker image prune -a -f"
+
     }
 }
 
@@ -44,6 +45,8 @@ def deploy(){
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
         sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${deleteImageContainer}"
         sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${runSSH}"
+        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 docker rmi golebu2023/image-registry:bc_wildfire_ui-1.0.1"
+        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 docker rmi golebu2023/image-registry:bc_wildfire_web-1.0.1"
 
     }
 }
