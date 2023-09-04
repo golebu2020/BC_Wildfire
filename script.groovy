@@ -22,7 +22,7 @@ def push(){
         sh "docker tag bc_wildfire_ui:${tagName} golebu2023/image-registry:bc_wildfire_ui-${tagName}"
         sh "docker push golebu2023/image-registry:bc_wildfire_web-${tagName}"
         sh "docker push golebu2023/image-registry:bc_wildfire_ui-${tagName}"
-        sh "docker image prune -a -f"
+        sh "docker rmi -f \$(docker images -aq)"
     }
 }
 
@@ -39,7 +39,7 @@ def deploy(){
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
     // def deleteImageContainer = "docker system prune -a --force --volumes"
-    def deleteImageContainer = "docker rm -vf \$(docker ps -aq)"
+    def deleteImageContainer = "docker rm -vf \$(docker ps -aq) && docker rmi -f \$(docker images -aq)"
 
     sshagent(['deploy-key']) {
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
