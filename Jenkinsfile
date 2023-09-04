@@ -16,7 +16,6 @@ pipeline{
                 script{
                     echo "Initializing..."
                     gv = load 'script.groovy'
-
                 }
             }
         }
