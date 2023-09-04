@@ -22,7 +22,7 @@ pipeline{
         stage("test"){
             steps{
                 script{
-                    echo '''Testing and building...'''
+                    echo '''Testing and building....'''
                     gv.testBuild()
                 }
             }
