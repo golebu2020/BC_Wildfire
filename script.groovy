@@ -10,6 +10,7 @@ def testBuild(){
     patch = matcher[2]
     tagName = "${major}.${minor}.${patch}"
     sh "bash ./test.sh ${tagName}"
+    remoteAccess = "ssh -o StrictHostKeyChecking=no root@165.232.147.254"
 }
 
 
@@ -43,10 +44,14 @@ def deploy(){
 
     sshagent(['deploy-key']) {
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
-        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${deleteImageContainer}"
-        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 ${runSSH}"
-        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 docker rmi golebu2023/image-registry:bc_wildfire_ui-1.0.1"
-        sh "ssh -o StrictHostKeyChecking=no root@165.232.147.254 docker rmi golebu2023/image-registry:bc_wildfire_web-1.0.1"
+        sh "${remoteAccess} ${deleteImageContainer}"
+        sh "${remoteAccess} ${runSSH}"
+
+        patch = patch as Integer
+        if (patch > 0){
+            sh "${remoteAccess} docker rmi golebu2023/image-registry:bc_wildfire_ui-${major}.${minor}.${patch-1}"
+            sh "${remoteAccess} docker rmi golebu2023/image-registry:bc_wildfire_web-${major}.${minor}.${patch-1}"
+        }
 
     }
 }

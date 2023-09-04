@@ -5,7 +5,7 @@ def major
 def minor
 def patch
 def tagName
-
+def remoteAccess
 pipeline{
     agent any
     environment{
