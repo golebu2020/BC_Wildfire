@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env groovy
 
 def gv, major, minor, patch, tagName, remoteAccess, uiReg, webReg
 
@@ -6,15 +6,15 @@ pipeline{
     agent any
     environment{
         WORKSPACE = pwd()
-        remoteAccess = "ssh -o StrictHostKeyChecking=no root@165.232.147.254"
-        uiReg = "golebu2023/image-registry:bc_wildfire_ui"
-        webReg = "golebu2023/image-registry:bc_wildfire_web"
+        REMOTE_ACCESS = "ssh -o StrictHostKeyChecking=no root@165.232.147.254"
+        UIREG = "golebu2023/image-registry:bc_wildfire_ui"
+        WEBREG = "golebu2023/image-registry:bc_wildfire_web"
     }
     stages{
         stage("initialize script"){
             steps{
                 script{
-                    echo "Initializing...."
+                    echo "Initializing..."
                     gv = load 'script.groovy'
                 }
             }
@@ -22,7 +22,7 @@ pipeline{
         stage("test"){
             steps{
                 script{
-                    echo '''Testing and building....'''
+                    echo '''Testing and building...'''
                     gv.testBuild()
                 }
             }
@@ -31,7 +31,7 @@ pipeline{
         stage("build and push"){
             steps{
                 script{
-                    echo '''Building.....'''
+                    echo '''Building...'''
                     gv.push()
                 }
             }
@@ -40,7 +40,7 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                    echo '''incrementing version....'''
+                    echo '''incrementing version...'''
                     gv.incrementVersion()
                 }
             }
@@ -49,7 +49,7 @@ pipeline{
         stage("deploy"){
             steps{
                 script{
-                    echo '''Deploying....'''
+                    echo '''Deploying...'''
                     gv.deploy()
                 }
             }
@@ -58,7 +58,7 @@ pipeline{
         stage("update commit"){
             steps{
                 script{
-                    echo '''updating commits....'''
+                    echo '''updating commits...'''
                     gv.updateCommit()
                 }
             }

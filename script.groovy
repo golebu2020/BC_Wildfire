@@ -15,10 +15,10 @@ def push(){
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
         sh "docker system prune --all"
-        sh "docker tag bc_wildfire_web:${tagName} ${env.webReg}-${tagName}"
-        sh "docker tag bc_wildfire_ui:${tagName} ${env.uiReg}-${tagName}"
-        sh "docker push ${env.webReg}-${tagName}"
-        sh "docker push ${env.uiReg}-${tagName}"
+        sh "docker tag bc_wildfire_web:${tagName} ${env.WEBREG}-${tagName}"
+        sh "docker tag bc_wildfire_ui:${tagName} ${env.UIREG}-${tagName}"
+        sh "docker push ${env.WEBREG}-${tagName}"
+        sh "docker push ${env.UIREG}-${tagName}"
         sh "docker image prune -a -f"
     }
 }
@@ -39,13 +39,13 @@ def deploy(){
 
     sshagent(['deploy-key']) {
         sh 'scp -o StrictHostKeyChecking=no docker-compose-prod-tag.sh docker-compose-prod.yaml .env.prod root@165.232.147.254:/root'
-        sh "${remoteAccess} ${deleteImageContainer}"
-        sh "${remoteAccess} ${runSSH}"
+        sh "${REMOTE_ACCESS} ${deleteImageContainer}"
+        sh "${REMOTE_ACCESS} ${runSSH}"
 
         patch = patch as Integer
         if (patch > 0){
-            sh "${remoteAccess} docker rmi ${env.uiReg}-${major}.${minor}.${patch-1}"
-            sh "${remoteAccess} docker rmi ${env.webReg}-${major}.${minor}.${patch-1}"
+            sh "${REMOTE_ACCESS} docker rmi ${env.UIREG}-${major}.${minor}.${patch-1}"
+            sh "${REMOTE_ACCESS} docker rmi ${env.WEBREG}-${major}.${minor}.${patch-1}"
         }
     }
 }
