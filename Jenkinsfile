@@ -40,7 +40,7 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                    echo '''incrementing version...'''
+                    echo '''incrementing version....'''
                     gv.incrementVersion()
                 }
             }
@@ -49,7 +49,7 @@ pipeline{
         stage("deploy"){
             steps{
                 script{
-                    echo '''Deploying...'''
+                    echo '''Deploying....'''
                     gv.deploy()
                 }
             }
@@ -58,7 +58,7 @@ pipeline{
         stage("update commit"){
             steps{
                 script{
-                    echo '''updating commits...'''
+                    echo '''updating commits....'''
                     gv.updateCommit()
                 }
             }
