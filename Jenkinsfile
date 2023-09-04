@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
-def gv
-def major
-def minor
-def patch
-def tagName
-def remoteAccess
-def uiReg
-def webReg
+def gv, major, minor, patch, tagName, remoteAccess, uiReg, webReg
 
 pipeline{
     agent any
