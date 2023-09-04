@@ -6,6 +6,9 @@ def minor
 def patch
 def tagName
 def remoteAccess
+def uiReg
+def webReg
+
 pipeline{
     agent any
     environment{
