@@ -35,7 +35,7 @@ def incrementVersion(){
 
 
 def deploy(){
-    echo "Deploying app......"
+    echo "Deploying app......."
     def deployTag = "${major}.${minor}.${patch}"
     def runSSH = "bash ./docker-compose-prod-tag.sh ${deployTag}"
     def deleteImageContainer = "docker rm -vf \$(docker ps -aq) && docker image prune -a -f"
