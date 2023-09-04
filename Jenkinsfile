@@ -31,7 +31,7 @@ pipeline{
         stage("build and push"){
             steps{
                 script{
-                    echo '''Building....'''
+                    echo '''Building.....'''
                     gv.push()
                 }
             }
