@@ -30,7 +30,7 @@ pipeline{
         stage("test"){
             steps{
                 script{
-                    echo "Testing and building......"
+                    echo '''Testing and building...'''
                     gv.testBuild()
                 }
             }
@@ -39,7 +39,7 @@ pipeline{
         stage("build and push"){
             steps{
                 script{
-                    echo "Building...."
+                    echo '''Building...'''
                     gv.push()
                 }
             }
@@ -48,7 +48,7 @@ pipeline{
         stage("increment version"){
             steps{
                 script{
-                    echo "incrementing version"
+                    echo '''incrementing version...'''
                     gv.incrementVersion()
                 }
             }
@@ -57,7 +57,7 @@ pipeline{
         stage("deploy"){
             steps{
                 script{
-                    echo "Deploying...."
+                    echo '''Deploying...'''
                     gv.deploy()
                 }
             }
@@ -66,7 +66,7 @@ pipeline{
         stage("update commit"){
             steps{
                 script{
-                    echo "updating commits..."
+                    echo '''updating commits...'''
                     gv.updateCommit()
                 }
             }

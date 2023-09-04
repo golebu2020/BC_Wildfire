@@ -1,8 +1,6 @@
 #!/usr/bin/env groovy
 
 def testBuild(){
-
-    echo "incrementing..."
     def file = readFile("${env.WORKSPACE}/version.xml")
     def matcher = file.split(",")
     major = matcher[0]
@@ -14,7 +12,6 @@ def testBuild(){
 
 
 def push(){
-
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
         sh "docker system prune --all"
@@ -23,7 +20,6 @@ def push(){
         sh "docker push ${env.webReg}-${tagName}"
         sh "docker push ${env.uiReg}-${tagName}"
         sh "docker image prune -a -f"
-
     }
 }
 
@@ -51,7 +47,6 @@ def deploy(){
             sh "${remoteAccess} docker rmi ${env.uiReg}-${major}.${minor}.${patch-1}"
             sh "${remoteAccess} docker rmi ${env.webReg}-${major}.${minor}.${patch-1}"
         }
-
     }
 }
 
