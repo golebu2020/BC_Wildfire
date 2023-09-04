@@ -19,7 +19,7 @@ pipeline{
                 }
             }
         }
-        stage("test"){
+        stage("test and build"){
             steps{
                 script{
                     echo '''Testing and building...'''
@@ -28,7 +28,7 @@ pipeline{
             }
         }
 
-        stage("build and push"){
+        stage("push"){
             steps{
                 script{
                     echo '''Building...'''
