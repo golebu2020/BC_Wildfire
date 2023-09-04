@@ -13,6 +13,9 @@ pipeline{
     agent any
     environment{
         WORKSPACE = pwd()
+        remoteAccess = "ssh -o StrictHostKeyChecking=no root@165.232.147.254"
+        uiReg = "golebu2023/image-registry:bc_wildfire_ui"
+        webReg = "golebu2023/image-registry:bc_wildfire_web"
     }
     stages{
         stage("initialize script"){

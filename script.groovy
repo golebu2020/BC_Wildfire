@@ -10,11 +10,6 @@ def testBuild(){
     patch = matcher[2]
     tagName = "${major}.${minor}.${patch}"
     sh "bash ./test.sh ${tagName}"
-
-    //Global Constants
-    remoteAccess = "ssh -o StrictHostKeyChecking=no root@165.232.147.254"
-    uiReg = "golebu2023/image-registry:bc_wildfire_ui"
-    webReg = "golebu2023/image-registry:bc_wildfire_web"
 }
 
 
@@ -23,10 +18,10 @@ def push(){
     withCredentials([usernamePassword(credentialsId:'dockerhub-credentials', usernameVariable: 'USER', passwordVariable: 'PASS')]){
         sh "echo ${PASS} | docker login --username ${USER} --password-stdin"
         sh "docker system prune --all"
-        sh "docker tag bc_wildfire_web:${tagName} ${webReg}-${tagName}"
-        sh "docker tag bc_wildfire_ui:${tagName} ${uiReg}-${tagName}"
-        sh "docker push ${webReg}-${tagName}"
-        sh "docker push ${uiReg}-${tagName}"
+        sh "docker tag bc_wildfire_web:${tagName} ${env.webReg}-${tagName}"
+        sh "docker tag bc_wildfire_ui:${tagName} ${env.uiReg}-${tagName}"
+        sh "docker push ${env.webReg}-${tagName}"
+        sh "docker push ${env.uiReg}-${tagName}"
         sh "docker image prune -a -f"
 
     }
@@ -53,8 +48,8 @@ def deploy(){
 
         patch = patch as Integer
         if (patch > 0){
-            sh "${remoteAccess} docker rmi ${uiReg}-${major}.${minor}.${patch-1}"
-            sh "${remoteAccess} docker rmi ${webReg}-${major}.${minor}.${patch-1}"
+            sh "${remoteAccess} docker rmi ${env.uiReg}-${major}.${minor}.${patch-1}"
+            sh "${remoteAccess} docker rmi ${env.webReg}-${major}.${minor}.${patch-1}"
         }
 
     }
