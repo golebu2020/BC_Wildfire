@@ -1,16 +1,14 @@
 version: "3.3"
 services:
   web:
-    image: "bc_wildfire_web:${TAG}"
+    # image: "bc_wildfire_web:${TAG}"
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-      # args:
-      #   - TAG=1.0.0
     ports:
       - 8082:8000
     volumes:
-      - web_volume:/app
+      - ./backend:/app
     command: >
       sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
@@ -21,7 +19,7 @@ services:
       - db
 
   frontend:
-    image: "bc_wildfire_ui:${TAG}"
+    # image: "bc_wildfire_ui:${TAG}"
     build:
       context: ./ui
       dockerfile: Dockerfile
